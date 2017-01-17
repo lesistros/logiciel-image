@@ -6,6 +6,10 @@
 #include <sstream>
 #include <algorithm> 
 
+#include "imageIO.h"
+
+
+
 #include "opencv2/core.hpp"
 #include "opencv2/face.hpp"
 #include "opencv2/highgui.hpp"
@@ -22,7 +26,15 @@ using namespace std;
 int main( int argc, char** argv)
 {	
 
+	Image Lena;
+ //I.fiche_Image();
+	Lena.openPGM("/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm");
+
+
+	//A Image("../test/sample/lena.pgm");
+
 	//format PPM
+
 	
 	string line;
 	ifstream myfile("../test/sample/tree_1.ppm", ios::binary);
@@ -277,10 +289,8 @@ Mat HistG(256,256,CV_32FC1,0.0f);
 			//HistB.at<float>(256-HistBLUE[n]  ,n) = HistBLUE[n];
 			/*			
 			cout << "\n";
-
 			cout << Histogramme[n] << " la ";
 			cout << "\n";
-
 			cout << n << " prout ";
 			//Histogramme[n];
 			*/
@@ -322,8 +332,8 @@ Mat HistG(256,256,CV_32FC1,0.0f);
 		BLUE.close();
 
 	}
-	else cout << "pas possible d ouvrir l image";
-
+	else cout << "pas possible d ouvrir l image";	
+	
 	return 0;
 
 

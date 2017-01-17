@@ -2,20 +2,72 @@
 #include <fstream>
 #include <stdlib.h>
 #include <string>
+#include <stdlib.h>
 #include <sstream>
+#include <algorithm> 
+
+#include"imageIO.h"
+
+
+#include "opencv2/core.hpp"
+#include "opencv2/face.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/objdetect.hpp"
 
 
 using namespace std;
 
 
-//string path;
+ Image::Image()
+	{
+	}
+ Image::Image(string lena, int width, int hight, int prix)
+	{ 
+		_nom=lena;
+		_width=width;
+		_height=hight;
+		_prix=prix;
+	}
+   string Image::getNom()const
+	{
+		return _nom;
+	}
+  int Image::getWidth()const
+	{
+		return _width;
+	}
+  int Image::getHeight()const
+	{
+		return _height;
+	}		
+
+  int Image::getPrix()const
+	{
+		return _prix;
+	}
+
+  // les setters
+  void Image::setNom(string nom)
+	{ 
+		_nom=nom;
+	}
+  void Image::setHeight(int height)
+	{
+		_height=height;
+	}
+   void Image::setWidth(int width)
+	{
+		_width=width;
+	}
+ void Image::setPrix(int prix)
+	{
+		_prix=prix;
+	}
 
 
-void openPGM (string path)
-{
-
-
-/// modif 1 FORMAT PGM
+void Image::openPGM(string path)
+{       
 	string line;
 	ifstream myfile(path, ios::binary);
 	int i =0;
@@ -35,10 +87,6 @@ void openPGM (string path)
 	
 	if(myfile.is_open())
 	{	
-
-
-	
-		
 		//lecture du type de fichier P5 ou P6
 		getline (myfile,line);
 		filetype = line;
@@ -46,7 +94,7 @@ void openPGM (string path)
 		
 		//lecture des dimensions de l'image;
 		getline (myfile,line);
-		sscanf(line.c_str(),"%i %i",&width,&height);
+		sscanf(line.c_str(),"%i %i",&_width,&_height);
 
 		//read max value
 		getline(myfile , line);
@@ -56,17 +104,12 @@ void openPGM (string path)
 
 		
 		cout << "Type du fichier : " << filetype << "\n";
-		cout << "Taille : " << width << " x " << height << "\n";
+		cout << "Taille : " << _width << " x " << _height << "\n";
 		cout << "Max scale : " << maxColor << "\n\n\n";
 		   
-		nbrBytes = width * height;
+		nbrBytes = _width * _height;
 
-			
-
-
-		
-
-
+		//nbrBytes = 20;
 		int compteur=1;
 		unsigned int compteur_col=1;
 		 unsigned int compteur_lign=1;
@@ -80,13 +123,13 @@ void openPGM (string path)
 			
 			//cout << "byte : " << int(byte) << endl;
 			
-			cout << "pixel numero = " << compteur<< endl; 
-			cout << "colonne : " << compteur_col << " ligne : " << compteur_lign << endl;
+			//cout << "pixel numero = " << compteur<< endl; 
+			//cout << "colonne : " << compteur_col << " ligne : " << compteur_lign << endl;
 			cout << "valeur du pixel : " << 256+pixel << "\n";
 			nbrBytes--;
 			compteur ++;
 			compteur_col ++;
-			if(compteur_col == 513)
+			if(compteur_col == _width+1)
 				{
 				compteur_col = 1;
 				compteur_lign = compteur_lign + 1;
@@ -97,15 +140,28 @@ void openPGM (string path)
 			{
 			//cout << "byte : " << int(byte) << endl;
 
-			cout << "pixel numero = " << compteur<< endl;
-			cout << "colonne : " << compteur_col << " ligne : " << compteur_lign << endl;
+			//cout << "pixel numero = " << compteur<< endl;
+			//cout << "colonne : " << compteur_col << " ligne : " << compteur_lign << endl;
+                        ofstream fichier("test.txt", ios::in);
+
+			for (int i=0;i<_width;i++)
+				 
+				{for(int j=0;j<_height;j++)
+					
+						fichier<<pixel;
+				}
+
+
+
+
+
 			cout << "valeur du pixel : " << pixel << "\n";
 			
 			nbrBytes--;
 			compteur ++;
 			compteur_col ++;
 
-			if(compteur_col == 513)
+			if(compteur_col == _width+1)
 				{
 				compteur_col = 1;
 				compteur_lign = compteur_lign + 1;
@@ -123,54 +179,10 @@ void openPGM (string path)
 	
 	else cout << "pas possible d ouvrir l image";
 	
-	/*
-	// modif 2
-	ifstream myfile2("../test/sample/lena.pgm", ios::binary);
 
-	int lign=0,col=0,nb_lign=0,nb_col=0,bits;
-	stringstream ss;
-	string inputline = "";
-	
-	getline(myfile2,inputline);
+}	
 
-	
-	
-	cout << "\n\n\n\nversion du pmg :" << inputline << endl;
-	
-	
-	
-	ss << myfile2.rdbuf();
-	ss >> nb_col >> nb_lign;
-	cout << nb_col << " colones et " << nb_lign << " lignes" << endl;
-
-	int max_val;
-	ss >> max_val;
-	cout << "maximum de niveau de gris" << max_val;
-	
-	unsigned char pix;
-	unsigned int pix_val[nb_lign][nb_col];
-	unsigned int integral[nb_lign][nb_col];
-	
-	for (lign=0; lign< nb_lign; lign++)
-		{
-			for(col=0; col<nb_col ; col++)
-			{
-				ss >> pix;
-				pix_val[lign][col]=pix;
-
-
-			}	
-		cout << endl;
-		}
-
-
-
-	*/
-
-
-
-}
-
+			
 
 
 
