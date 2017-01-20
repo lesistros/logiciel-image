@@ -214,13 +214,13 @@ void Image::openPGM(string path)
 	else cout << "pas possible d ouvrir l image";
 
 
-		cout << "fin de fonction";
+		cout << "fin de fonction pgm"<< endl;
 
 }	
 
 
 
-void Image::allocateMatrix()
+void Image::allocateMatrix(int _height, int _width)
 {
 	// 2-D pointer which represents entries of a matrix
 	int h;
@@ -228,18 +228,22 @@ void Image::allocateMatrix()
 	// set the size of the matrix
 
 	// allocate memories related to the number of rows
-	_MatriceImgRED = new int*[_width];
-	_MatriceImgGREEN = new int*[_width];
-	_MatriceImgBLUE = new int*[_width];
+	_MatriceImgRED = new int*[_height];
+	_MatriceImgGREEN = new int*[_height];
+	_MatriceImgBLUE = new int*[_height];
+	cout << _height << endl ;
+	cout <<	_width << endl;
 	
 	// allocate memories related to the number of columns of each row
-	for(h = 0; h < _width; h++)
+	for(h = 0; h < _height; h++)
 		{
-			_MatriceImgRED[h] =  new int[_height];
-			_MatriceImgGREEN[h] =  new int[_height];
-			_MatriceImgBLUE[h] =  new int[_height];
-			
+			_MatriceImgRED[h] =  new int[_width];
+			_MatriceImgGREEN[h] =  new int[_width];
+			_MatriceImgBLUE[h] =  new int[_width];
+			//cout << h << endl;
 		}
+
+cout << "allocate fini quand meme" << endl ;
 
 }
 
@@ -334,8 +338,8 @@ if(myfile.is_open())
 
 
 
-		allocateMatrix();
-		
+		allocateMatrix(_height, _width);
+		cout << "allocateMattrix ne marche pas"<<endl;
 		/*
 		int _MatriceImgRED[_height][_width];
 		int _MatriceImgGREEN[_height][_width];		

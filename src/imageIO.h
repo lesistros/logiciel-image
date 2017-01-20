@@ -41,7 +41,7 @@ class Image
 
 
 	*/
-	void allocateMatrix();
+	void allocateMatrix(int _height, int _width);
 
 
 

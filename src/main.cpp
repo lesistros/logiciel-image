@@ -34,7 +34,7 @@ int main( int argc, char** argv)
 
 	Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm");
 
-	//Tree.histogramme(Tree.getHistR());
+	Tree.histogramme(Tree.getHistR());
 	//A Image("../test/sample/lena.pgm");
 
 	//format PPM
