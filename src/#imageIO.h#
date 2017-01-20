@@ -57,9 +57,9 @@ class Image
 	int** getMatriceR();
 	int** getMatriceG();
 	int** getMatriceB();
-	int* getHistR();
-	int* getHistG();
-	int* getHistB();
+	int getHistR();
+	int getHistG();
+	int getHistB();
 	
 	void setNom(string nom);
 	void setWidth(int width);

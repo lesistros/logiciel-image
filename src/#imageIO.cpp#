@@ -1,4 +1,4 @@
-
+go
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
@@ -66,19 +66,19 @@ int** Image::getMatriceB()
  
 
 
-int* Image::getHistR()
+int Image::getHistR()
 	{
 		
 		return _HistR;
 	}
 
-int* Image::getHistG()
+int Image::getHistG()
 	{
 		
 		return _HistG;
 	}
 
-int* Image::getHistB()
+int Image::getHistB()
 	{
 		
 		return _HistB;
@@ -332,7 +332,11 @@ if(myfile.is_open())
 		// creation d une matrice pour un futur traitement
 		
 
+// example: use of matrix
+//matrix[2][4] = 10.5;
 
+// return used memories
+free(_MatriceImgRED);
 
 		allocateMatrix();
 		
@@ -341,8 +345,8 @@ if(myfile.is_open())
 		int _MatriceImgGREEN[_height][_width];		
 		int _MatriceImgBLUE[_height][_width];
 		*/
-		//cout << _height-1 <<endl;
-		//cout << _width-1 <<endl;
+		cout << _height-1 <<endl;
+		cout << _width-1 <<endl;
 		
 
 	
@@ -511,7 +515,7 @@ if(myfile.is_open())
 	}
 	else cout << "pas possible d ouvrir l image";	
 
-	cout << "fin de fonction";
+	
 
 }
 
