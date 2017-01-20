@@ -264,11 +264,11 @@ char byte;
 int pixel;
 
 // MATRICES POUR LES HISTOGRAMMES DES COULEURS
-
+/*
 int _HistRED[255];
 int _HistGREEN[255];
 int _HistBLUE[255];
-
+*/
 
 int l=0;
 // TEST
@@ -399,6 +399,7 @@ if(myfile.is_open())
 
 							// TEST Histogramme
 							_HistRED[pixel+256]=_HistRED[pixel+256]+1;
+							
 				
 						}
 					else if(compteur == 2 )
@@ -408,7 +409,7 @@ if(myfile.is_open())
 							_MatriceImgGREEN[a][s] = pixel+256;
 							s=s+1;
 							compteur++;
-							//_HistGREEN[pixel+256]=_HistGREEN[pixel+256]+1;
+							_HistGREEN[pixel+256]=_HistGREEN[pixel+256]+1;
 	
 
 						}
@@ -421,8 +422,9 @@ if(myfile.is_open())
 							f=f+1;
 							compteur = 1;
 							compteur_col ++;
-							//_HistBLUE[pixel+256]=_HistBLUE[pixel+256]+1;
-					
+							_HistBLUE[pixel+256]=_HistBLUE[pixel+256]+1;
+							if(pixel+256>255 || pixel+256<0 )
+							verif << pixel+256 <<" ";
 							}
 				}
 			else
@@ -440,6 +442,8 @@ if(myfile.is_open())
 							compteur++;
 							j=j+1;
 							_HistRED[pixel]=_HistRED[pixel]+1;
+cout << _HistRED[pixel]<< "VERIFICATION"<<endl;
+
 
 						}
 					else if(compteur == 2 )
@@ -449,7 +453,7 @@ if(myfile.is_open())
 							GREEN << pixel  << " ";
 							s=s+1;
 							compteur++;
-							//_HistGREEN[pixel]=_HistGREEN[pixel]+1;
+							_HistGREEN[pixel]=_HistGREEN[pixel]+1;
 						}
 					else
 						{
@@ -460,12 +464,14 @@ if(myfile.is_open())
 							compteur_col ++;
 							f=f+1;
 							
-							//_HistBLUE[pixel]=_HistBLUE[pixel]+1;
+							_HistBLUE[pixel]=_HistBLUE[pixel]+1;
 							//cout << d <<" "<< f << endl;
 							//cout << "ca bug ici"<< endl;
+							if(pixel>255 || pixel<0 )
+							verif << pixel <<" ";
 						}
 				}
-			//verif << _HistBLUE[pixel] <<" ";
+			
 			if(j == _width)
 				{	//Cette verification sert a pouvoir rester dans les dim de la matrice et la structurer
 				
@@ -513,97 +519,86 @@ if(myfile.is_open())
 		verif.close();
 
 	}
-	else cout << "pas possible d ouvrir l image";	
-
-		cout << "fin de fonction openppm";
+	else cout << "pas possible d ouvrir l image"<< endl;	
+		cout<< "openppm "<< _HistRED[67] <<" openppm"<<endl ;
+		cout << "fin de fonction openppm"<< endl;
 
 }
 
-void Image::histogramme(int hist[255])
+void Image::histogramme()
 { 
 // MATRICES POUR LES HISTOGRAMMES DES COULEURS
 
-cout << " ca rentre meme pas icic ";
+cout << " ca rentre meme pas icic "<< endl;
 //Initialisation matrice histogramme
 
-Mat HIST(1956,256,CV_32FC1,0.0f);
+Mat HISTR(256,256,CV_32FC1,0.0f);
+Mat HISTG(256,256,CV_32FC1,0.0f);
+Mat HISTB(256,256,CV_32FC1,0.0f);
 
 int n = 0;
+
+cout<< "histogramme "<< _HistRED[67] <<" histogramme"<<endl ;
 	
 		for (n=0; n<256; n++)
 		{
 			
 			
 			cout << n << " ";
-			HIST.at<float>(hist[n] ,n) = hist[n];
-			
+			HISTR.at<float>(256-_HistRED[n] ,n) = _HistRED[n];
+			HISTG.at<float>(256-_HistGREEN[n] ,n) = _HistGREEN[n];
+			//HISTB.at<float>(256-_HistBLUE[n] ,n) = _HistBLUE[n];
 			
 		}
 
 
-namedWindow( "HISTOGRAMME ",  WINDOW_AUTOSIZE  );    
-imshow( "HISTOGRAMME  ", HIST );
+namedWindow( "HISTOGRAMME ROUGE ",  WINDOW_AUTOSIZE  );    
+imshow( "HISTOGRAMME  ROUGE ", HISTR );
+waitKey(0);
+namedWindow( "HISTOGRAMME VERT ",  WINDOW_AUTOSIZE  );    
+imshow( "HISTOGRAMME VERT ", HISTG );
+waitKey(0);
+namedWindow( "HISTOGRAMME BLEU ",  WINDOW_AUTOSIZE  );    
+imshow( "HISTOGRAMME BLEU ", HISTB );
 waitKey(0);
 destroyAllWindows();
 	
 
 }
-/*
-
-// MATRICES POUR LES HISTOGRAMMES DES COULEURS
-
-	int HistRED[255];
-	int HistGREEN[255];
-	int HistBLUE[255];
 
 
-	int l=0;
-// TEST
-// initialisation a 0
-for(l=0; l<255; l++)
+		
+void Image::afficher()
 {
-	HistRED[l] = 0;
-	HistGREEN[l] =0;
-	HistBLUE[l] =0;
-	
-}
-	
-//Initialisation matrice histogramme
-Mat HistR(256,256,CV_32FC1,0.0f);
-Mat HistG(256,256,CV_32FC1,0.0f);
-//Mat HistB(256,256,CV_32FC1,0.0f);
+// initialisation des matrices pour chaques couleurs
+
+
+	cout<< _height<<" sffdgsdfgfvavfev" ;
+	//Mat imageR(_height,_width,CV_32FC1,0.0f);
+	//Mat imageG(height,width,CV_32FC1,0.0f);	
+	//Mat imageB(height,width,CV_32FC1,0.0f);
 
 ofstream OPCV;
 OPCV.open ("../test/ImageEnCoursDeTraitement/OPVC.txt");
 ofstream MOI;
 MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");		
 	
-		int n = 0;	
-		for (n=0; n<255; n++)
-		{
-			
-			
-			
-			HistR.at<float>(256-HistRED[n]   ,n) = HistRED[n];
-			HistG.at<float>(256-HistGREEN[n] ,n) = HistGREEN[n];
-			//HisrtB.at<float>(256-HistBLUE[n]  ,n) = HistBLUE[n];
-			
-		}
+		
 
-		// mon imread
+		/*// mon imread
 		int v=0;
 		int b=0;
-		for (v=0; v<height ; v++ )	
+		for (v=0; v<_height ; v++ )	
 			{
-			for(b=0; b< width*3 ; b++ )
+			for(b=0; b< _width ; b++ )
 				{
 					
-					
+					cout << "caca";
 
-					imageR.at<float>(v,b) = MatriceImgRED[v][b];
+					imageR.at<float>(v,b) = _MatriceImgRED[v][b];
 					//cout << MatriceImg[v][b][1] << endl;
-					imageR.at<float>(v,b+1) = MatriceImgRED[v][b+1];
-					imageR.at<float>(v,b+2) = MatriceImgRED[v][b+2];
+					imageR.at<float>(v,b+1) = _MatriceImgRED[v][b+1];
+					imageR.at<float>(v,b+2) = _MatriceImgRED[v][b+2];
 					b=b+2;		
 
 
@@ -611,30 +606,22 @@ MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");
 			}
 
 
-		//cout << "\n" << HIST << endl;
+		*/
 		// Affichage avec openCV		
 
-		myfile.close();
+	//	myfile.close();
 		Mat image;
 		
-		//Mat Hist=Histogramme;		
+			
 
-  		namedWindow( "HISTOGRAMME ROUGE",  WINDOW_AUTOSIZE  );    
-		imshow( "HISTOGRAMME ROUGE ", HistR );
-		waitKey(0);
-		namedWindow( "HISTOGRAMME GREEN",  WINDOW_AUTOSIZE  );    
-		imshow( "HISTOGRAMME GREEN ", HistG );
-		waitKey(0);
-		//namedWindow( "HISTOGRAMME BLUE", 1256 );    
-		//imshow( "HISTOGRAMME BLUE ", HistB );
- 		//waitKey(0);
+  		
     		
 
 
 		//cout << histImg;
 		image = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
-		OPCV << image;
-		MOI << imageR;
+		//OPCV << image;
+		//MOI << imageR;
 	
 		//cout << image;
 		namedWindow( "Display window", WINDOW_AUTOSIZE );   // Create a window for display.
@@ -646,17 +633,11 @@ OPCV.close();
 MOI.close();
 		
 
-}
-		
-void Image::afficher()
-{
-// initialisation des matrices pour chaques couleurs
 
-	Mat imageR(height,width*3,CV_32FC1,0.0f);
-	Mat imageG(height,width,CV_32FC1,0.0f);	
-	Mat imageB(height,width,CV_32FC1,0.0f);
 
 
 }
 
-*/
+
+
+
