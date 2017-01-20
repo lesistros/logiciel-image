@@ -66,22 +66,22 @@ int** Image::getMatriceB()
  
 
 
-int* Image::getHistR()
+int* Image::getHistRED()
 	{
 		
-		return _HistR;
+		return _HistRED;
 	}
 
-int* Image::getHistG()
+int* Image::getHistGREEN()
 	{
 		
-		return _HistG;
+		return _HistGREEN;
 	}
 
-int* Image::getHistB()
+int* Image::getHistBLUE()
 	{
 		
-		return _HistB;
+		return _HistBLUE;
 	}
 
 
@@ -231,8 +231,8 @@ void Image::allocateMatrix(int _height, int _width)
 	_MatriceImgRED = new int*[_height];
 	_MatriceImgGREEN = new int*[_height];
 	_MatriceImgBLUE = new int*[_height];
-	cout << _height << endl ;
-	cout <<	_width << endl;
+	//cout << _height << endl ;
+	//cout <<	_width << endl;
 	
 	// allocate memories related to the number of columns of each row
 	for(h = 0; h < _height; h++)
@@ -243,7 +243,7 @@ void Image::allocateMatrix(int _height, int _width)
 			//cout << h << endl;
 		}
 
-cout << "allocate fini quand meme" << endl ;
+//cout << "allocate fini quand meme" << endl ;
 
 }
 
@@ -339,7 +339,7 @@ if(myfile.is_open())
 
 
 		allocateMatrix(_height, _width);
-		cout << "allocateMattrix ne marche pas"<<endl;
+		//cout << "allocateMattrix ne marche pas"<<endl;
 		/*
 		int _MatriceImgRED[_height][_width];
 		int _MatriceImgGREEN[_height][_width];		
@@ -393,7 +393,7 @@ if(myfile.is_open())
 
   							RED << pixel+256 << " ";
 							_MatriceImgRED[i][j] = pixel+256;
-							verif << _MatriceImgRED[i][j] << " "; 
+							//cout << _MatriceImgRED[i][j] << " "; 
 							compteur++;
 							j=j+1;
 
@@ -408,7 +408,7 @@ if(myfile.is_open())
 							_MatriceImgGREEN[a][s] = pixel+256;
 							s=s+1;
 							compteur++;
-							_HistGREEN[pixel+256]=_HistGREEN[pixel+256]+1;
+							//_HistGREEN[pixel+256]=_HistGREEN[pixel+256]+1;
 	
 
 						}
@@ -421,7 +421,7 @@ if(myfile.is_open())
 							f=f+1;
 							compteur = 1;
 							compteur_col ++;
-							_HistBLUE[pixel+256]=_HistBLUE[pixel+256]+1;
+							//_HistBLUE[pixel+256]=_HistBLUE[pixel+256]+1;
 					
 							}
 				}
@@ -435,7 +435,7 @@ if(myfile.is_open())
 							//ROUGE
   							RED << pixel  << " ";
 							_MatriceImgRED[i][j] = pixel;
-							verif << _MatriceImgRED[i][j] << " "; 
+							//verif << _MatriceImgRED[i][j] << " "; 
 							//cout << MatriceImgRED[i][j] <<endl;
 							compteur++;
 							j=j+1;
@@ -449,7 +449,7 @@ if(myfile.is_open())
 							GREEN << pixel  << " ";
 							s=s+1;
 							compteur++;
-							_HistGREEN[pixel]=_HistGREEN[pixel]+1;
+							//_HistGREEN[pixel]=_HistGREEN[pixel]+1;
 						}
 					else
 						{
@@ -460,12 +460,12 @@ if(myfile.is_open())
 							compteur_col ++;
 							f=f+1;
 							
-							_HistBLUE[pixel]=_HistBLUE[pixel]+1;
+							//_HistBLUE[pixel]=_HistBLUE[pixel]+1;
 							//cout << d <<" "<< f << endl;
 							//cout << "ca bug ici"<< endl;
 						}
 				}
-			
+			//verif << _HistBLUE[pixel] <<" ";
 			if(j == _width)
 				{	//Cette verification sert a pouvoir rester dans les dim de la matrice et la structurer
 				
@@ -506,7 +506,7 @@ if(myfile.is_open())
 			//cout << MatriceImgGREEN[i][j] << endl;
 			
 		}
-		cout << compteur_col << endl;	
+		//cout << compteur_col << endl;	
 		RED.close();
 		GREEN.close();
 		BLUE.close();
@@ -515,7 +515,7 @@ if(myfile.is_open())
 	}
 	else cout << "pas possible d ouvrir l image";	
 
-	cout << "fin de fonction";
+		cout << "fin de fonction openppm";
 
 }
 
@@ -523,18 +523,19 @@ void Image::histogramme(int hist[255])
 { 
 // MATRICES POUR LES HISTOGRAMMES DES COULEURS
 
-
+cout << " ca rentre meme pas icic ";
 //Initialisation matrice histogramme
 
-Mat HIST(256,256,CV_32FC1,0.0f);
+Mat HIST(1956,256,CV_32FC1,0.0f);
 
-int n = 0;	
-		for (n=0; n<255; n++)
+int n = 0;
+	
+		for (n=0; n<256; n++)
 		{
 			
 			
-			
-			HIST.at<float>(256-hist[n] ,n) = hist[n];
+			cout << n << " ";
+			HIST.at<float>(hist[n] ,n) = hist[n];
 			
 			
 		}

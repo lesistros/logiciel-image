@@ -29,9 +29,9 @@ class Image
 	int** _MatriceImgRED;
 	int** _MatriceImgGREEN;
 	int** _MatriceImgBLUE;
-	int _HistR[255];
-	int _HistG[255];
-	int _HistB[255];
+	int _HistRED[255];
+	int _HistGREEN[255];
+	int _HistBLUE[255];
 	// mettre les getteur histogramme rgb les rajouter dans cpp h et tester l affichage
 
 	/*
@@ -57,9 +57,9 @@ class Image
 	int** getMatriceR();
 	int** getMatriceG();
 	int** getMatriceB();
-	int* getHistR();
-	int* getHistG();
-	int* getHistB();
+	int* getHistRED();
+	int* getHistGREEN();
+	int* getHistBLUE();
 	
 	void setNom(string nom);
 	void setWidth(int width);
