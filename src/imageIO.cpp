@@ -121,8 +121,8 @@ void Image::openPGM(string path)
 	ifstream myfile(path, ios::binary);
 	int i =0;
 	string filetype = "";
-	int width = 0;
-	int height= 0;
+	//int width = 0;
+	//int height= 0;
 	int maxColor = 0;
 	string temp;
 	int nbrBytes;
@@ -214,7 +214,7 @@ void Image::openPGM(string path)
 	else cout << "pas possible d ouvrir l image";
 
 
-		cout << "fin de fonction pgm"<< endl;
+		//cout << "fin de fonction pgm"<< endl;
 
 }	
 
@@ -222,29 +222,19 @@ void Image::openPGM(string path)
 
 void Image::allocateMatrix(int _height, int _width)
 {
-	// 2-D pointer which represents entries of a matrix
+	
 	int h;
 
-	// set the size of the matrix
-
-	// allocate memories related to the number of rows
 	_MatriceImgRED = new int*[_height];
 	_MatriceImgGREEN = new int*[_height];
 	_MatriceImgBLUE = new int*[_height];
-	//cout << _height << endl ;
-	//cout <<	_width << endl;
 	
-	// allocate memories related to the number of columns of each row
 	for(h = 0; h < _height; h++)
 		{
 			_MatriceImgRED[h] =  new int[_width];
 			_MatriceImgGREEN[h] =  new int[_width];
-			_MatriceImgBLUE[h] =  new int[_width];
-			//cout << h << endl;
+			_MatriceImgBLUE[h] =  new int[_width];	
 		}
-
-//cout << "allocate fini quand meme" << endl ;
-
 }
 
 
@@ -255,20 +245,14 @@ string line;
 ifstream myfile(path, ios::binary);
 int i =0;
 string filetype = "";
-int _width = 0;
-int _height= 0;
+//int _width = 0;
+//int _height= 0;
 int maxColor = 0;
 string temp;
 int nbBytes;
 char byte;
 int pixel;
 
-// MATRICES POUR LES HISTOGRAMMES DES COULEURS
-/*
-int _HistRED[255];
-int _HistGREEN[255];
-int _HistBLUE[255];
-*/
 
 int l=0;
 // TEST
@@ -339,19 +323,7 @@ if(myfile.is_open())
 
 
 		allocateMatrix(_height, _width);
-		//cout << "allocateMattrix ne marche pas"<<endl;
-		/*
-		int _MatriceImgRED[_height][_width];
-		int _MatriceImgGREEN[_height][_width];		
-		int _MatriceImgBLUE[_height][_width];
-		*/
-		//cout << _height-1 <<endl;
-		//cout << _width-1 <<endl;
 		
-
-	
-
-
 		//lecture pixels
 		// a faire attention, isoler les couleurs (R G B)
 
@@ -442,7 +414,7 @@ if(myfile.is_open())
 							compteur++;
 							j=j+1;
 							_HistRED[pixel]=_HistRED[pixel]+1;
-cout << _HistRED[pixel]<< "VERIFICATION"<<endl;
+//cout << _HistRED[pixel]<< "VERIFICATION"<<endl;
 
 
 						}
@@ -504,7 +476,7 @@ cout << _HistRED[pixel]<< "VERIFICATION"<<endl;
 				
 			if(compteurPIX==_width*_height*3)
 				{
-					cout << compteurPIX << endl; 
+					//cout << compteurPIX << endl; 
 					nbBytes=0;
 			 	}
 			//cout << d << endl;
@@ -520,8 +492,8 @@ cout << _HistRED[pixel]<< "VERIFICATION"<<endl;
 
 	}
 	else cout << "pas possible d ouvrir l image"<< endl;	
-		cout<< "openppm "<< _HistRED[67] <<" openppm"<<endl ;
-		cout << "fin de fonction openppm"<< endl;
+		//cout<< "openppm "<< _HistRED[67] <<" openppm"<<endl ;
+		//cout << "fin de fonction openppm"<< endl;
 
 }
 
@@ -529,7 +501,7 @@ void Image::histogramme()
 { 
 // MATRICES POUR LES HISTOGRAMMES DES COULEURS
 
-cout << " ca rentre meme pas icic "<< endl;
+//cout << " ca rentre meme pas icic "<< endl;
 //Initialisation matrice histogramme
 
 Mat HISTR(256,256,CV_32FC1,0.0f);
@@ -538,13 +510,13 @@ Mat HISTB(256,256,CV_32FC1,0.0f);
 
 int n = 0;
 
-cout<< "histogramme "<< _HistRED[67] <<" histogramme"<<endl ;
+//cout<< "histogramme "<< _HistRED[67] <<" histogramme"<<endl ;
 	
 		for (n=0; n<256; n++)
 		{
 			
 			
-			cout << n << " ";
+			//cout << n << " ";
 			HISTR.at<float>(256-_HistRED[n] ,n) = _HistRED[n];
 			HISTG.at<float>(256-_HistGREEN[n] ,n) = _HistGREEN[n];
 			//HISTB.at<float>(256-_HistBLUE[n] ,n) = _HistBLUE[n];
@@ -561,7 +533,7 @@ waitKey(0);
 namedWindow( "HISTOGRAMME BLEU ",  WINDOW_AUTOSIZE  );    
 imshow( "HISTOGRAMME BLEU ", HISTB );
 waitKey(0);
-destroyAllWindows();
+//destroyAllWindows();
 	
 
 }
@@ -570,62 +542,128 @@ destroyAllWindows();
 		
 void Image::afficher()
 {
+
+
 // initialisation des matrices pour chaques couleurs
 
 
-	cout<< _height<<" sffdgsdfgfvavfev" ;
-	//Mat imageR(_height,_width,CV_32FC1,0.0f);
-	//Mat imageG(height,width,CV_32FC1,0.0f);	
-	//Mat imageB(height,width,CV_32FC1,0.0f);
+
+ofstream monimage;
+monimage.open ("../test/ImageEnCoursDeTraitement/monimage");
+
+	
+//cout<< _height<<" sffdgsdfgfvavfev" ;
+//Mat imageR(_height,_width,CV_32FC1,0.0f);
+//Mat imageG(height,width,CV_32FC1,0.0f);	
+//Mat imageB(height,width,CV_32FC1,0.0f);
 
 ofstream OPCV;
 OPCV.open ("../test/ImageEnCoursDeTraitement/OPVC.txt");
 ofstream MOI;
 MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");		
 	
-		
+//cout << _width << "sdfwefwefjkwehkjwhef"  ;
 
-		/*// mon imread
-		int v=0;
-		int b=0;
+monimage << "[";
+
+// mon imread
+int v=0;
+int b=0;
+Mat image(_height,_width/2,CV_8UC3);
+	
+
+//_width << " " << _height
+
+	
 		for (v=0; v<_height ; v++ )	
 			{
 			for(b=0; b< _width ; b++ )
 				{
+
+
 					
-					cout << "caca";
+					image.at<uchar>(v,b)=_MatriceImgBLUE[v][b];
+					image.at<uchar>(v,b+1)=_MatriceImgBLUE[v][b];
+					image.at<uchar>(v,b+2)=_MatriceImgBLUE[v][b];
+					b=b+2;
+					//cout << _MatriceImgRED[v][b] << endl;
+					/*
+					if(_MatriceImgRED[v][b]<100)
+					{
+					monimage<< " ";
+					monimage <<_MatriceImgRED[v][b]<< ", ";
+					}
+					else {
+					monimage <<_MatriceImgRED[v][b]<< ", ";
+					}
+					if(_MatriceImgRED[v][b]<100)
+					{
+					monimage<< " ";
+					monimage <<_MatriceImgRED[v][b]<< ", ";
+					}
+					else {
+					monimage <<_MatriceImgRED[v][b]<< ", ";
+					}
 
-					imageR.at<float>(v,b) = _MatriceImgRED[v][b];
+
+					if(_MatriceImgRED[v][b]<100)
+					{
+
+					monimage<< " ";
+					monimage <<_MatriceImgRED[v][b];
+					if(b == _width-1)
+					{
+					monimage<< ";"<< "\n"<<" ";
+					}
+					else monimage << ", ";
+										
+					//monimage <<_MatriceImgRED[v][b]<< ", ";
+									
+					}
+					else
+					{
+					monimage <<_MatriceImgRED[v][b];
+					if(b == _width-1)
+					{
+					monimage<< ";"<< "\n"<<" ";
+					}
+					else monimage << ", ";
+
+					}
+
+					cout << b << endl;				
+					
 					//cout << MatriceImg[v][b][1] << endl;
-					imageR.at<float>(v,b+1) = _MatriceImgRED[v][b+1];
-					imageR.at<float>(v,b+2) = _MatriceImgRED[v][b+2];
-					b=b+2;		
-
+					//imageR.at<float>(v,b+1) = _MatriceImgRED[v][b+1];
+					//imageR.at<float>(v,b+2) = _MatriceImgRED[v][b+2];
+					//b=b+2;		
+					)
+					*/
 
 				}
 			}
 
 
-		*/
+		//smonimage << "]";
 		// Affichage avec openCV		
 
-	//	myfile.close();
-		Mat image;
+		//myfile.close();
+		//Mat image;
 		
 			
 
-  		
+  		monimage.close();
     		
 
 
 		//cout << histImg;
-		image = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
-		//OPCV << image;
+		//image = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
+		OPCV << image;
 		//MOI << imageR;
 	
 		//cout << image;
-		namedWindow( "Display window", WINDOW_AUTOSIZE );   // Create a window for display.
-		imshow( "Display window", image );                    // Show our image inside it.    
+		namedWindow( "Display window");   // Create a window for display.
+		imshow( "Display window", image);                    // Show our image inside it.    
 		waitKey(0);
 		destroyAllWindows();
 

@@ -28,11 +28,10 @@ int main( int argc, char** argv)
 	Image  Tree;
 
 	Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm");
-	cout << " on est la ";
-	//Tree.histogramme();
+	
+	Tree.histogramme();
 	Tree.afficher();
-	
-	
+
 	return 0;
 
 
