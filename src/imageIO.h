@@ -67,6 +67,7 @@ class Image
 	void setPrix( int prix);
 	void fiche_Image();
 	void lecture_descriptif(int choix);
+	void convolution();
 	void histogramme();
 	void afficher();
 

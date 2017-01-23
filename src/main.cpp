@@ -29,8 +29,10 @@ int main( int argc, char** argv)
 
 	Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm");
 	
-	Tree.histogramme();
-	Tree.afficher();
+	//Tree.histogramme();
+	//Tree.afficher();
+
+	Tree.convolution();
 
 	return 0;
 

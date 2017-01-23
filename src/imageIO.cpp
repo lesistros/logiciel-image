@@ -539,6 +539,54 @@ waitKey(0);
 }
 
 
+void Image::convolution()
+{
+
+
+float matrice_conv[10][10];
+float matrice_conv1[10][10];
+float filt[3][3]={{2,2,2}, {2,2,2}, {2,2,2}};
+//int n=3,m=3;
+
+// initialisation des matrices
+
+for(int a=0;a<10;a++)
+	for(int s=0;s<10;s++)
+		{
+
+
+		matrice_conv[a][s]=9;
+		matrice_conv1[a][s]=0;
+
+
+		}
+
+
+for (int i=1;i<9;i++)
+        for (int j=1;j<9;j++)
+        {
+
+	//cout << filt[0][0] << " et" << matrice_conv[i-1][j-1] << endl;
+            matrice_conv1[i][j]=(matrice_conv[i-1][j-1]*filt[0][0] + matrice_conv[i-1][j]*filt[0][1] + matrice_conv[i-1][j+1]*filt[0][2] + matrice_conv[i][j-1]*filt[1][0] + matrice_conv[i][j]*filt[1][1] + matrice_conv[i][j+1]*filt[1][2] + matrice_conv[i+1][j-1]*filt[2][0] + matrice_conv[i+1][j]*filt[2][1] + matrice_conv[i+1][j+1]*filt[2][2]);
+
+
+}
+
+
+for(int a=0;a<10;a++)
+	for(int s=0;s<10;s++)
+		{
+
+
+	
+		cout<< matrice_conv1[a][s]<<endl;
+
+
+		}
+
+}
+
+
 		
 void Image::afficher()
 {
