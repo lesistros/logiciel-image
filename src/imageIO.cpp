@@ -228,12 +228,15 @@ void Image::allocateMatrix(int _height, int _width)
 	_MatriceImgRED = new int*[_height];
 	_MatriceImgGREEN = new int*[_height];
 	_MatriceImgBLUE = new int*[_height];
-	
+	_MatriceCov = new int*[_height];
+	_MatriceCov2 = new int*[_height];
 	for(h = 0; h < _height; h++)
 		{
 			_MatriceImgRED[h] =  new int[_width];
 			_MatriceImgGREEN[h] =  new int[_width];
 			_MatriceImgBLUE[h] =  new int[_width];	
+			_MatriceCov[h] = new int[_width];
+			_MatriceCov2[h] = new int[_width];
 		}
 }
 
@@ -538,14 +541,90 @@ waitKey(0);
 
 }
 
-
-void Image::convolution()
+/*
+void IMAGE::setFiltre(float )
 {
 
 
+
+}
+*/
+void Image::convolution()
+{
+
+int filt[3][3]={{1/8,1/8,1/8},{1/8,1,1/8},{1/8,1/8,1/8}};
+int filt2[3][3]={{1,1,1},{0,0,0},{-1,-1,-1}};
+int filt3[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
+
+	int n=_height ,m=_width;
+	//int matrice_conv[10][10];
+    	//int matrice_conv1[_height][_width];
+ //cout<<"ayay"<<endl;
+ 
+     /*
+     
+     for(int i=0;i<m;i++)
+     {
+     	for(int j=0;j<n;j++)
+     	matrice_conv[i][j]=i;
+     	
+	 }
+      for(int i=0;i<3;i++)
+     {
+     	for(int j=0;j<3;j++)
+     	filt[i][j]=i;
+     	cout<<"je suis "<<endl;
+     	
+	 }
+     */
+     
+     
+     
+    int somme=0;
+    int sommes=0;
+    int y;
+   
+   for(int x=1;x<n-1;x++)
+   	{
+		   for( y=1;y<m-1;y++)
+   				{
+				   for(int i=-1;i<2;i++)
+   						
+   						{for(int j=-1;j<2;j++)
+   						
+   							somme=somme+_MatriceImgRED[x+i][y+j]*filt2[i+1][j+1];
+							//sommes=sommes+_MatriceImgBLUE[x+i][y+j]*filt3[i+1][j+1];
+							somme=round(somme);			
+							//sommes=round(sommes);
+				
+							if(somme<0 )
+							somme=0;
+							else
+							{
+							somme=255;
+							//sommes=255;							
+							}
+						   }
+					_MatriceCov[x][y]=somme;		
+					//_MatriceCov2[x][y]=sommes;
+			    //cout<<_MatriceCov[x][y]<<" ";	  
+			    somme=0;
+				}
+			cout<<endl;
+			    
+	}
+		   
+		   
+		 
+}
+
+void Image::convolution2()
+{
+
+/*
 float matrice_conv[10][10];
 float matrice_conv1[10][10];
-float filt[3][3]={{2,2,2}, {2,2,2}, {2,2,2}};
+float filt[3][3]={{2,2,2}, {2,2,2},{2,2,2}};
 //int n=3,m=3;
 
 // initialisation des matrices
@@ -583,7 +662,7 @@ for(int a=0;a<10;a++)
 
 
 		}
-
+*/
 }
 
 
@@ -601,7 +680,7 @@ monimage.open ("../test/ImageEnCoursDeTraitement/monimage");
 
 	
 //cout<< _height<<" sffdgsdfgfvavfev" ;
-//Mat imageR(_height,_width,CV_32FC1,0.0f);
+Mat imageR(_height,_width,CV_32FC1,0.0f);
 //Mat imageG(height,width,CV_32FC1,0.0f);	
 //Mat imageB(height,width,CV_32FC1,0.0f);
 
@@ -612,28 +691,46 @@ MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");
 	
 //cout << _width << "sdfwefwefjkwehkjwhef"  ;
 
-monimage << "[";
+//monimage << "[";
+cout<<_MatriceCov[1][2]<<" ";
 
 // mon imread
 int v=0;
 int b=0;
-Mat image(_height,_width/2,CV_8UC3);
+int a=0;
+Mat image(_height,_width,CV_8UC3,0.0f);
+Mat image2(_height,_width,CV_8UC3,0.0f);
 	
-
+//CV_8UC3
 //_width << " " << _height
 
 	
 		for (v=0; v<_height ; v++ )	
 			{
-			for(b=0; b< _width ; b++ )
+			for(b=0; b< _width*3 ; b++ )
 				{
 
 
 					
-					image.at<uchar>(v,b)=_MatriceImgBLUE[v][b];
-					image.at<uchar>(v,b+1)=_MatriceImgBLUE[v][b];
-					image.at<uchar>(v,b+2)=_MatriceImgBLUE[v][b];
+					image.at<uchar>(v,b)=_MatriceCov[v][a];
+					image.at<uchar>(v,b+1)=_MatriceCov[v][a];
+					image.at<uchar>(v,b+2)=_MatriceCov[v][a];
+					
+					if(a<_width-1)
+					a=a+1;
+					else
+					a=0;
 					b=b+2;
+/*
+					image2.at<uchar>(v,b)=_MatriceCov2[v][a];
+					image2.at<uchar>(v,b+1)=_MatriceCov2[v][a];
+					image2.at<uchar>(v,b+2)=_MatriceCov2[v][a];
+					
+					if(a<_width-1)
+					a=a+1;
+					else
+					a=0;
+*/
 					//cout << _MatriceImgRED[v][b] << endl;
 					/*
 					if(_MatriceImgRED[v][b]<100)
@@ -705,18 +802,20 @@ Mat image(_height,_width/2,CV_8UC3);
 
 
 		//cout << histImg;
-		//image = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
-		OPCV << image;
-		//MOI << imageR;
+		//imageR = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
+		//OPCV << imageR;
+		MOI << image;
 	
 		//cout << image;
 		namedWindow( "Display window");   // Create a window for display.
 		imshow( "Display window", image);                    // Show our image inside it.    
+		//namedWindow( "Display window");   // Create a window for display.
+		//imshow( "Display window", image2);                    // Show our image inside it.		
 		waitKey(0);
 		destroyAllWindows();
 
-OPCV.close();
-MOI.close();
+//OPCV.close();
+//MOI.close();
 		
 
 

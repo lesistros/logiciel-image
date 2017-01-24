@@ -46,6 +46,8 @@ class Image
 
 
  public:
+	int** _MatriceCov;
+	int** _MatriceCov2;	
 	Image();
 	Image(string lena, int width, int hight, int prix);
 	void openPGM (string path);
@@ -65,9 +67,11 @@ class Image
 	void setWidth(int width);
 	void setHeight(int height);
 	void setPrix( int prix);
+	void setFiltre(int);
 	void fiche_Image();
 	void lecture_descriptif(int choix);
 	void convolution();
+	void convolution2();
 	void histogramme();
 	void afficher();
 

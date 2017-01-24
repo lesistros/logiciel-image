@@ -27,13 +27,13 @@ int main( int argc, char** argv)
 {	
 	Image  Tree;
 
-	Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm");
+	Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm");
 	
 	//Tree.histogramme();
-	//Tree.afficher();
+	
 
 	Tree.convolution();
-
+	Tree.afficher();
 	return 0;
 
 
