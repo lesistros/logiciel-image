@@ -62,12 +62,16 @@ int main( int argc, char** argv)
 		case 6: cout<<"sortir du programme";break;
 		default:cout<<"erreur;r";break;
 		}	
-	}		while (choix!=6);	
+	}
+		while (choix!=6);	
+
+// TRAITEMENT D IMAGE
 	Image  Tree;
 
-	Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm");
+	Tree.openPGM("/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm");
 	
-	Tree.histogramme();
+	//Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm");
+	//Tree.histogramme();
 	
 
 	Tree.convolution();

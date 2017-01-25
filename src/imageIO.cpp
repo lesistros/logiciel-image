@@ -115,14 +115,44 @@ void Image::setPrix(int prix)
 	}
 
 
+void Image::LireImg(string path)
+{
+
+	string line;
+	ifstream myfile(path, ios::binary);
+	int i =0;
+	string filetype = "";
+	if(myfile.is_open())
+	{	
+		//lecture du type de fichier P5 ou P6
+		getline (myfile,line);
+		filetype = line;
+		if (line.compare("P6") != 1)
+		{
+		cout << "je suis ici" << endl;		
+		myfile.close();
+		openPPM(path);
+		}		
+		else
+		{
+		cout << "je suis la" << endl;	
+		myfile.close();		
+		openPGM(path);
+		}
+	}	
+	else
+	cout << "erreur version image" << endl;
+
+
+
+}
+
 void Image::openPGM(string path)
 {       
 	string line;
 	ifstream myfile(path, ios::binary);
 	int i =0;
 	string filetype = "";
-	//int width = 0;
-	//int height= 0;
 	int maxColor = 0;
 	string temp;
 	int nbrBytes;
@@ -130,9 +160,19 @@ void Image::openPGM(string path)
 	int pixel;
 	
 	
+int l=0;
+// TEST
+// initialisation a 0
+for(l=0; l<256; l++)
+{
+	_HistNb[l] = 0;
+	
+	
+}
 
-
-
+//Initialisation de la copie nb de l image
+ofstream ImageNb;
+ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 	
 	if(myfile.is_open())
 	{	
@@ -150,62 +190,91 @@ void Image::openPGM(string path)
 		
 		maxColor = atoi ( line.c_str());
 
-
+		ImageNb <<	"P2" << "\n"; //p2 pour le noir et blanc pour afficher avec open cv
+		ImageNb <<	_width << " " << _height <<"\n";
+		ImageNb <<	maxColor << "\n";
 		
 		//cout << "Type du fichier : " << filetype << "\n";
 		//cout << "Taille : " << _width << " x " << _height << "\n";
 		//cout << "Max scale : " << maxColor << "\n\n\n";
-		   
+		
 		nbrBytes = _width * _height;
 
-		//nbrBytes = 20;
+		allocateMatrix(_height, _width);
+
+		int i=0; // ligne
+		int j=0; // colonne
 		int compteur=1;
 		unsigned int compteur_col=1;
 		unsigned int compteur_lign=1;
-		
+		unsigned int compteurPIX=1;	
+
 		while (nbrBytes != 0 )
-		{
+		{	//cout << "i= " << i << " j= " << j << " ";
+			compteurPIX++;
 			myfile.get(byte);
 			pixel = byte;
 			if (byte<0)
-			{
-			
-			//cout << "byte : " << int(byte) << endl;
-			
-			//cout << "pixel numero = " << compteur<< endl; 
-			//cout << "colonne : " << compteur_col << " ligne : " << compteur_lign << endl;
-			//cout << "valeur du pixel : " << 256+pixel << "\n";
-				nbrBytes--;
-				compteur ++;
+			{//cout << "i= " << i << " j= " << j << " ";
+
+				
+				_MatriceImgNb[i][j] = pixel+256;
+				j=j+1;
+				//cout << j << endl;
+				ImageNb << pixel+256 << " ";
+				//compteur ++;
 				compteur_col ++;
-				if(compteur_col == _width+1)
+				//_HistNb[pixel+256]=_HistNb[pixel+256]+1;
+		
+				if(compteur_col == _width)
 					{
-						compteur_col = 1;
-						compteur_lign = compteur_lign + 1;
-						
-					}	
+						ImageNb  << "\n";
+
+
+					}
+
+	
 			}
 			else
-				{
-			
-					
+				{//cout << "i= " << i << " j= " << j << " ";
+					_MatriceImgNb[i][j] = pixel;
+					//cout << j << endl;
+					j=j+1;
+					ImageNb << pixel << " ";
 					nbrBytes--;
-					compteur ++;
-					compteur_col ++;
 					
-					if(compteur_col == _width+1)
-						{
-							compteur_col = 1;
-							compteur_lign = compteur_lign + 1;
-							
-						}
+					compteur_col ++;
+					//_HistNb[pixel]=_HistNb[pixel]+1;
+
+
+					
+					 if(compteur_col == _width)
+					{
+						ImageNb << "\n";
+						compteur_col = 1;
+
+
+					}
 					
 				}
 			
+			if(j == _width)
+				{	//Cette verification sert a pouvoir rester dans les dim de la matrice et la structurer
+				
+					cout << "i= " << i << " j= " << j << "\n";
+					i=i+1;
+					j=0;
+				}
+			if(compteurPIX == (_width* _height))
+				{
+					//cout << compteurPIX << endl; 
+					nbrBytes=0;
+			 	}
 		}
 		
 		
 		myfile.close();
+		ImageNb.close();
 
 	}
 
@@ -224,20 +293,25 @@ void Image::allocateMatrix(int _height, int _width)
 {
 	
 	int h;
-
+	
+	_MatriceImgNb	= new int*[_height];
 	_MatriceImgRED = new int*[_height];
 	_MatriceImgGREEN = new int*[_height];
 	_MatriceImgBLUE = new int*[_height];
 	_MatriceCov = new int*[_height];
 	_MatriceCov2 = new int*[_height];
+
+
 	for(h = 0; h < _height; h++)
 		{
+			_MatriceImgNb[h] =   new int[_width];
 			_MatriceImgRED[h] =  new int[_width];
 			_MatriceImgGREEN[h] =  new int[_width];
 			_MatriceImgBLUE[h] =  new int[_width];	
 			_MatriceCov[h] = new int[_width];
 			_MatriceCov2[h] = new int[_width];
 		}
+
 }
 
 
@@ -248,8 +322,7 @@ string line;
 ifstream myfile(path, ios::binary);
 int i =0;
 string filetype = "";
-//int _width = 0;
-//int _height= 0;
+
 int maxColor = 0;
 string temp;
 int nbBytes;
@@ -318,7 +391,7 @@ if(myfile.is_open())
 		BLUE << _width << " " << _height <<"\n";
 		BLUE << maxColor << "\n";
 
-		nbBytes = _width * _height *3 ;
+		nbBytes = _width * _height * 3;
 	
 		// creation d une matrice pour un futur traitement
 		
@@ -591,7 +664,7 @@ int filt4[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
    						
    						{for(int j=-1;j<2;j++)
    						
-   							somme=somme+_MatriceImgRED[x+i][y+j]*filt2[i+1][j+1];
+   							somme=somme+_MatriceImgNb[x+i][y+j]*filt2[i+1][j+1];
 							//sommes=sommes+_MatriceImgBLUE[x+i][y+j]*filt3[i+1][j+1];
 							somme=round(somme);			
 							//sommes=round(sommes);
@@ -660,6 +733,7 @@ int j=0;
 int h=0;
 
 Mat image(_height,_width,CV_8UC3,0.0f);
+Mat imageOriginale(_height,_width,CV_8UC3,0.0f);
 Mat image2(_height,_width,CV_8UC3,0.0f);
 	
 //CV_8UC3
@@ -692,6 +766,9 @@ ImageTraitee << "\n";
 					image.at<uchar>(v,b)=_MatriceCov[v][a];
 					image.at<uchar>(v,b+1)=_MatriceCov[v][a];
 					image.at<uchar>(v,b+2)=_MatriceCov[v][a];
+					imageOriginale.at<uchar>(v,b)=_MatriceImgNb[v][a];
+					imageOriginale.at<uchar>(v,b+1)=_MatriceImgNb[v][a];
+					imageOriginale.at<uchar>(v,b+2)=_MatriceImgNb[v][a];
 						
 
 					if(a<_width-1)
@@ -777,8 +854,7 @@ ImageTraitee << "\n";
 			
 
   		monimage.close();
-    		
-		ImageTraitee.close();
+    		ImageTraitee.close();
 
 		//cout << histImg;
 		//imageR = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
@@ -786,8 +862,10 @@ ImageTraitee << "\n";
 		MOI << image;
 	
 		//cout << image;
-		namedWindow( "Display window");   
-		imshow( "Display window", image);                      
+		namedWindow( "image traitee");   
+		imshow( "image traitee", image);  
+		namedWindow( "image originale");   
+		imshow( "image originale", imageOriginale);                     
 		//namedWindow( "Display window");   
 		//imshow( "Display window", image2);                  		
 		waitKey(0);

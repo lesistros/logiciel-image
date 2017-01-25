@@ -26,9 +26,11 @@ class Image
   	int _width;
 	int _height;
   	int _prix;
+	int** _MatriceImgNb;
 	int** _MatriceImgRED;
 	int** _MatriceImgGREEN;
 	int** _MatriceImgBLUE;
+	int _HistNb[255];
 	int _HistRED[255];
 	int _HistGREEN[255];
 	int _HistBLUE[255];
@@ -52,10 +54,12 @@ class Image
 	Image(string lena, int width, int hight, int prix);
 	void openPGM (string path);
 	void openPPM(string path);
+	void LireImg(string path);
 	string getNom()const;
 	int getWidth();
 	int getHeight();
 	int getPrix()const;
+
 	int** getMatriceR();
 	int** getMatriceG();
 	int** getMatriceB();
