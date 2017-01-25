@@ -260,7 +260,7 @@ int pixel;
 int l=0;
 // TEST
 // initialisation a 0
-for(l=0; l<255; l++)
+for(l=0; l<256; l++)
 {
 	_HistRED[l] = 0;
 	_HistGREEN[l] =0;
@@ -503,8 +503,6 @@ if(myfile.is_open())
 void Image::histogramme()
 { 
 // MATRICES POUR LES HISTOGRAMMES DES COULEURS
-
-//cout << " ca rentre meme pas icic "<< endl;
 //Initialisation matrice histogramme
 
 Mat HISTR(256,256,CV_32FC1,0.0f);
@@ -521,8 +519,8 @@ int n = 0;
 			
 			//cout << n << " ";
 			HISTR.at<float>(256-_HistRED[n] ,n) = _HistRED[n];
-			HISTG.at<float>(256-_HistGREEN[n] ,n) = _HistGREEN[n];
-			//HISTB.at<float>(256-_HistBLUE[n] ,n) = _HistBLUE[n];
+		//	HISTG.at<float>(256-_HistGREEN[n] ,n) = _HistGREEN[n];
+		//	HISTB.at<float>(256-_HistBLUE[n] ,n) = _HistBLUE[n];
 			
 		}
 
@@ -553,8 +551,9 @@ void Image::convolution()
 {
 
 int filt[3][3]={{1/8,1/8,1/8},{1/8,1,1/8},{1/8,1/8,1/8}};
-int filt2[3][3]={{1,1,1},{0,0,0},{-1,-1,-1}};
-int filt3[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
+int filt2[3][3]={{-1,-1,-1},{-1,18,-1},{-1,-1,-1}};
+int filt3[3][3]={{1,1,1},{0,0,0},{-1,-1,-1}};
+int filt4[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
 
 	int n=_height ,m=_width;
 	//int matrice_conv[10][10];
@@ -599,11 +598,13 @@ int filt3[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
 				
 							if(somme<0 )
 							somme=0;
-							else
+							else if (somme> 255)
 							{
 							somme=255;
 							//sommes=255;							
 							}
+							else 
+							somme=somme;
 						   }
 					_MatriceCov[x][y]=somme;		
 					//_MatriceCov2[x][y]=sommes;
@@ -618,52 +619,6 @@ int filt3[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
 		 
 }
 
-void Image::convolution2()
-{
-
-/*
-float matrice_conv[10][10];
-float matrice_conv1[10][10];
-float filt[3][3]={{2,2,2}, {2,2,2},{2,2,2}};
-//int n=3,m=3;
-
-// initialisation des matrices
-
-for(int a=0;a<10;a++)
-	for(int s=0;s<10;s++)
-		{
-
-
-		matrice_conv[a][s]=9;
-		matrice_conv1[a][s]=0;
-
-
-		}
-
-
-for (int i=1;i<9;i++)
-        for (int j=1;j<9;j++)
-        {
-
-	//cout << filt[0][0] << " et" << matrice_conv[i-1][j-1] << endl;
-            matrice_conv1[i][j]=(matrice_conv[i-1][j-1]*filt[0][0] + matrice_conv[i-1][j]*filt[0][1] + matrice_conv[i-1][j+1]*filt[0][2] + matrice_conv[i][j-1]*filt[1][0] + matrice_conv[i][j]*filt[1][1] + matrice_conv[i][j+1]*filt[1][2] + matrice_conv[i+1][j-1]*filt[2][0] + matrice_conv[i+1][j]*filt[2][1] + matrice_conv[i+1][j+1]*filt[2][2]);
-
-
-}
-
-
-for(int a=0;a<10;a++)
-	for(int s=0;s<10;s++)
-		{
-
-
-	
-		cout<< matrice_conv1[a][s]<<endl;
-
-
-		}
-*/
-}
 
 
 		
@@ -672,9 +627,6 @@ void Image::afficher()
 
 
 // initialisation des matrices pour chaques couleurs
-
-
-
 ofstream monimage;
 monimage.open ("../test/ImageEnCoursDeTraitement/monimage");
 
@@ -687,7 +639,13 @@ Mat imageR(_height,_width,CV_32FC1,0.0f);
 ofstream OPCV;
 OPCV.open ("../test/ImageEnCoursDeTraitement/OPVC.txt");
 ofstream MOI;
-MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");		
+MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");	
+ofstream ImageTraitee;
+ImageTraitee.open ("../test/ImageEnCoursDeTraitement/ImageTraitee.pgm");	
+
+ImageTraitee << "P2" << "\n";
+ImageTraitee << _width << " " << _height <<"\n";
+ImageTraitee << 255 << "\n";	
 	
 //cout << _width << "sdfwefwefjkwehkjwhef"  ;
 
@@ -698,11 +656,30 @@ cout<<_MatriceCov[1][2]<<" ";
 int v=0;
 int b=0;
 int a=0;
+int j=0;
+int h=0;
+
 Mat image(_height,_width,CV_8UC3,0.0f);
 Mat image2(_height,_width,CV_8UC3,0.0f);
 	
 //CV_8UC3
 //_width << " " << _height
+
+
+
+for(h=0; h<_height ; h++ )
+	{
+	for(j=0; j<_width ;j++ )	
+		{			
+ImageTraitee << _MatriceCov[h][j] << " ";	
+if (j == _width)	
+{
+
+ImageTraitee << "\n";
+		
+}
+}	
+}
 
 	
 		for (v=0; v<_height ; v++ )	
@@ -715,12 +692,14 @@ Mat image2(_height,_width,CV_8UC3,0.0f);
 					image.at<uchar>(v,b)=_MatriceCov[v][a];
 					image.at<uchar>(v,b+1)=_MatriceCov[v][a];
 					image.at<uchar>(v,b+2)=_MatriceCov[v][a];
-					
+						
+
 					if(a<_width-1)
 					a=a+1;
 					else
 					a=0;
 					b=b+2;
+					
 /*
 					image2.at<uchar>(v,b)=_MatriceCov2[v][a];
 					image2.at<uchar>(v,b+1)=_MatriceCov2[v][a];
@@ -799,7 +778,7 @@ Mat image2(_height,_width,CV_8UC3,0.0f);
 
   		monimage.close();
     		
-
+		ImageTraitee.close();
 
 		//cout << histImg;
 		//imageR = imread("../test/ImageEnCoursDeTraitement/RED.pgm");
@@ -807,13 +786,13 @@ Mat image2(_height,_width,CV_8UC3,0.0f);
 		MOI << image;
 	
 		//cout << image;
-		namedWindow( "Display window");   // Create a window for display.
-		imshow( "Display window", image);                    // Show our image inside it.    
-		//namedWindow( "Display window");   // Create a window for display.
-		//imshow( "Display window", image2);                    // Show our image inside it.		
+		namedWindow( "Display window");   
+		imshow( "Display window", image);                      
+		//namedWindow( "Display window");   
+		//imshow( "Display window", image2);                  		
 		waitKey(0);
 		destroyAllWindows();
-
+//test
 //OPCV.close();
 //MOI.close();
 		
