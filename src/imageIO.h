@@ -23,6 +23,8 @@ class Image
 {
  private:
 	string _nom;
+	int PPM=0;
+	int PGM=0;
   	int _width;
 	int _height;
   	int _prix;
@@ -30,10 +32,16 @@ class Image
 	int** _MatriceImgRED;
 	int** _MatriceImgGREEN;
 	int** _MatriceImgBLUE;
+	
 	int _HistNb[255];
 	int _HistRED[255];
 	int _HistGREEN[255];
 	int _HistBLUE[255];
+	float _Filtre[3][3];
+	int filtre1[3][3]={{1/8,1/8,1/8},{1/8,1,1/8},{1/8,1/8,1/8}};
+	int filtre2[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
+	int filtre3[3][3]={{1,1,1},{0,0,0},{-1,-1,-1}};
+	int filtre4[3][3]={{-1,-1,-1},{-1,18,-1},{-1,-1,-1}};
 	// mettre les getteur histogramme rgb les rajouter dans cpp h et tester l affichage
 
 	/*
@@ -49,7 +57,11 @@ class Image
 
  public:
 	int** _MatriceCov;
-	int** _MatriceCov2;	
+	int** _MatriceCov2;
+	int** _MatriceCovNB;
+	int** _MatriceCovRED;
+	int** _MatriceCovGREEN;
+	int** _MatriceCovBLUE;	
 	Image();
 	Image(string lena, int width, int hight, int prix);
 	void openPGM (string path);
@@ -59,6 +71,7 @@ class Image
 	int getWidth();
 	int getHeight();
 	int getPrix()const;
+	void Filtre();
 
 	int** getMatriceR();
 	int** getMatriceG();
@@ -71,7 +84,7 @@ class Image
 	void setWidth(int width);
 	void setHeight(int height);
 	void setPrix( int prix);
-	void setFiltre(int);
+	
 	void fiche_Image();
 	void lecture_descriptif(int choix);
 	void convolution();

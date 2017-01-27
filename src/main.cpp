@@ -68,10 +68,10 @@ int main( int argc, char** argv)
 // TRAITEMENT D IMAGE
 	Image  Tree;
 
-	Tree.openPGM("/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm");
+	Tree.LireImg("../test/sample/lena.pgm");
 	
 	//Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm");
-	//Tree.histogramme();
+	Tree.histogramme();
 	
 
 	Tree.convolution();
