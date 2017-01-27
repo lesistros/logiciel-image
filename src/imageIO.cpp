@@ -227,7 +227,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 				ImageNb << pixel+256 << " ";
 				//compteur ++;
 				compteur_col ++;
-				_HistNb[pixel+256]=_HistNb[pixel+256]+1;
+				//_HistNb[pixel+256]=_HistNb[pixel+256]+1;
 		
 				if(compteur_col == _width)
 					{
@@ -247,7 +247,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 					nbrBytes--;
 					
 					compteur_col ++;
-					_HistNb[pixel]=_HistNb[pixel]+1;
+					//_HistNb[pixel]=_HistNb[pixel]+1;
 
 
 					

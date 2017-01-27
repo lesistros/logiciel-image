@@ -65,6 +65,7 @@ int main( int argc, char** argv)
 	}
 		while (choix!=6);	
 
+
 // TRAITEMENT D IMAGE
 	Image  Tree;
 
