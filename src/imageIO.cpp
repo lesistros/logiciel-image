@@ -213,12 +213,12 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 		unsigned int compteurPIX=1;	
 
 		while (nbrBytes != 0 )
-		{	//cout << "i= " << i << " j= " << j << " ";
+		{	
 			compteurPIX++;
 			myfile.get(byte);
 			pixel = byte;
 			if (byte<0)
-			{//cout << "i= " << i << " j= " << j << " ";
+			{
 
 				
 				_MatriceImgNb[i][j] = pixel+256;
@@ -227,7 +227,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 				ImageNb << pixel+256 << " ";
 				//compteur ++;
 				compteur_col ++;
-				//_HistNb[pixel+256]=_HistNb[pixel+256]+1;
+				_HistNb[pixel+256]=_HistNb[pixel+256]+1;
 		
 				if(compteur_col == _width)
 					{
@@ -239,7 +239,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 	
 			}
 			else
-				{//cout << "i= " << i << " j= " << j << " ";
+				{
 					_MatriceImgNb[i][j] = pixel;
 					//cout << j << endl;
 					j=j+1;
@@ -247,7 +247,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 					nbrBytes--;
 					
 					compteur_col ++;
-					//_HistNb[pixel]=_HistNb[pixel]+1;
+					_HistNb[pixel]=_HistNb[pixel]+1;
 
 
 					
@@ -264,13 +264,13 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 			if(j == _width)
 				{	//Cette verification sert a pouvoir rester dans les dim de la matrice et la structurer
 				
-					//cout << "i= " << i << " j= " << j << "\n";
+					
 					i=i+1;
 					j=0;
 				}
 			if(compteurPIX == (_width* _height))
 				{
-					//cout << compteurPIX << endl; 
+					
 					nbrBytes=0;
 			 	}
 		}
@@ -286,7 +286,6 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 	else cout << "pas possible d ouvrir l image";
 
 
-		//cout << "fin de fonction pgm"<< endl;
 
 }	
 
@@ -378,11 +377,7 @@ if(myfile.is_open())
 		//read max value
 		getline(myfile , line);
 		maxColor = atoi ( line.c_str());
-		/*
-		cout << "Type du fichier : " << filetype << "\n";
-		cout << "Taille : " << width << " x " << height << " x 3 "<<"\n";
-		cout << "Max scale : " << maxColor << "\n\n\n";
-		*/
+		
 
 		// remise sour la forme des formats PGM pour afficher (pas obligatoire)
 
@@ -492,12 +487,10 @@ if(myfile.is_open())
 							//ROUGE
   							RED << pixel  << " ";
 							_MatriceImgRED[i][j] = pixel;
-							//verif << _MatriceImgRED[i][j] << " "; 
-							//cout << MatriceImgRED[i][j] <<endl;
 							compteur++;
 							j=j+1;
 							_HistRED[pixel]=_HistRED[pixel]+1;
-							//cout << _HistRED[pixel]<< "VERIFICATION"<<endl;
+							
 
 
 						}
@@ -520,8 +513,6 @@ if(myfile.is_open())
 							f=f+1;
 							
 							_HistBLUE[pixel]=_HistBLUE[pixel]+1;
-							//cout << d <<" "<< f << endl;
-							//cout << "ca bug ici"<< endl;
 							if(pixel>255 || pixel<0 )
 							verif << pixel <<" ";
 						}
@@ -562,12 +553,10 @@ if(myfile.is_open())
 					//cout << compteurPIX << endl; 
 					nbBytes=0;
 			 	}
-			//cout << d << endl;
-			//cout << "ligne "<<a <<"colonne "<< s << endl;
-			//cout << MatriceImgGREEN[i][j] << endl;
+			
 			
 		}
-		//cout << compteur_col << endl;	
+		
 		RED.close();
 		GREEN.close();
 		BLUE.close();
@@ -575,8 +564,7 @@ if(myfile.is_open())
 
 	}
 	else cout << "pas possible d ouvrir l image"<< endl;	
-		//cout<< "openppm "<< _HistRED[67] <<" openppm"<<endl ;
-		//cout << "fin de fonction openppm"<< endl;
+		
 
 }
 
@@ -587,7 +575,6 @@ void Image::histogramme()
 
 int n = 0;
 
-//cout<< "histogramme "<< _HistRED[67] <<" histogramme"<<endl ;
 	if(PPM==1 && PGM==0)
 		{
 	Mat HISTR(256,256,CV_32FC1,0.0f);
@@ -694,7 +681,7 @@ void Image::Filtre()
 
 	}
 		
-  // cout << " fin fonction filtre "<<endl ;
+  
 }
 
 
@@ -702,13 +689,8 @@ void Image::Filtre()
 
 void Image::convolution()
 {
-  //cout << "je rentre dans convolution "<< endl;
-
-//cout << _height<<" "<<  _width<< endl;
-//allocateMatrix(_height, _width);
- // cout << "je rentre dans allocatematrix "<< endl;
+ 
 Filtre();
- // cout << "je rentre dans filtre "<< endl;
 	int n=_height ,m=_width;
    
     int somme=0;
@@ -719,7 +701,7 @@ Filtre();
 	int sommeNb=0;
 
  
-    //int y=1,x=1;
+    
    
    for(int x=1;x<n-1;x++)
    	{
@@ -734,7 +716,7 @@ Filtre();
 
 						if(PPM==1 && PGM==0)
 							{
-   							//cout << "je rentre dans PPM" << endl;
+   							
 							sommeRED=sommeRED+_MatriceImgRED[x+i][y+j]*_Filtre[i+1][j+1];
 							sommeGREEN=sommeGREEN+_MatriceImgGREEN[x+i][y+j]*_Filtre[i+1][j+1];
 							sommeBLUE=sommeBLUE+_MatriceImgBLUE[x+i][y+j]*_Filtre[i+1][j+1];
@@ -813,19 +795,15 @@ Filtre();
 							}
 
 
-					//cout << "x= " << x << " y= " << y << endl ;
+					
 					_MatriceCovNB[x][y]=sommeNb;
 					_MatriceCovRED[x][y]=sommeRED;
-					//cout << "RED= "<< _MatriceCovRED[x][y] << endl;
 					_MatriceCovGREEN[x][y]=sommeGREEN;
-					//cout << "GREEN= "<< _MatriceCovGREEN[x][y] << endl;
-					_MatriceCovBLUE[x][y]=sommeBLUE;
-					//cout << "BLUE= "<< _MatriceCovBLUE[x][y] << endl;			
+					_MatriceCovBLUE[x][y]=sommeBLUE;			
 					
 					sommeRED=0;
 					sommeGREEN=0;
 					sommeBLUE=0;
-					//sommeNb=0;	  
 			    
 			}
 		   
@@ -846,24 +824,11 @@ void Image::afficher()
 ofstream monimage;
 monimage.open ("../test/ImageEnCoursDeTraitement/monimage");
 
-	
-//cout<< _height<<" sffdgsdfgfvavfev" ;
-//Mat imageR(_height,_width,CV_32FC1,0.0f);
-//Mat imageG(height,width,CV_32FC1,0.0f);	
-//Mat imageB(height,width,CV_32FC1,0.0f);
 
 ofstream OPCV;
 OPCV.open ("../test/ImageEnCoursDeTraitement/OPVC.txt");
 ofstream MOI;
 MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");	
-
-
-	
-
-
-	
-
-
 
 int v=0;
 int b=0;
@@ -880,11 +845,6 @@ Mat imageOriginaleNB(_height,_width,CV_8UC3,0.0f);
 Mat imageOriginaleRED(_height,_width,CV_8UC3,0.0f);
 Mat imageOriginaleGREEN(_height,_width,CV_8UC3,0.0f);
 Mat imageOriginaleBLUE(_height,_width,CV_8UC3,0.0f);
-//Mat image2(_height,_width,CV_8UC3,0.0f);
-	
-//CV_8UC3
-//_width << " " << _height
-
 
 if(PGM==1 && PPM==0)
 {
@@ -954,12 +914,6 @@ ImageTraiteeGREEN.close();
 ImageTraiteeBLUE.close();
 
 }	
-
-
-//int dim=0;
-
-	
-
 
 
 		for (v=0; v<_height ; v++ )	
@@ -1098,9 +1052,6 @@ ImageTraiteeBLUE.close();
 
 		}
 }
-		
-//OPCV.close();
-//MOI.close();
 		
 
 
