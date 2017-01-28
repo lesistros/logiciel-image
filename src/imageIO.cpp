@@ -5,7 +5,7 @@
 #include <string>
 #include <stdlib.h>
 #include <sstream>
-#include <algorithm> 
+#include <algorithm>
 
 #include"imageIO.h"
 
@@ -27,7 +27,7 @@ Image::Image()
 	}
 
 Image::Image(string lena, int width, int hight, int prix)
-	{ 
+	{
 		_nom=lena;
 		_width=width;
 		_height=hight;
@@ -47,40 +47,40 @@ int Image::getWidth()
 
 int** Image::getMatriceR()
 	{
-		
+
 		return _MatriceImgRED;
 	}
- 
+
 
 int** Image::getMatriceG()
 	{
-		
+
 		return _MatriceImgGREEN;
 	}
 
 int** Image::getMatriceB()
 	{
-		
+
 		return _MatriceImgBLUE;
 	}
- 
+
 
 
 int* Image::getHistRED()
 	{
-		
+
 		return _HistRED;
 	}
 
 int* Image::getHistGREEN()
 	{
-		
+
 		return _HistGREEN;
 	}
 
 int* Image::getHistBLUE()
 	{
-		
+
 		return _HistBLUE;
 	}
 
@@ -88,7 +88,7 @@ int* Image::getHistBLUE()
 int Image::getHeight()
 	{
 		return _height;
-	}		
+	}
 
 
 int Image::getPrix()const
@@ -98,7 +98,7 @@ int Image::getPrix()const
 
   // les setters
 void Image::setNom(string nom)
-	{ 
+	{
 		_nom=nom;
 	}
 void Image::setHeight(int height)
@@ -117,31 +117,31 @@ void Image::setPrix(int prix)
 
 void Image::LireImg(string path)
 {
-	 
- 
+
+
 
 	string line;
 	ifstream myfile(path, ios::binary);
 	stringstream ss;
 	string filetype = "";
 	if(myfile.is_open())
-	{	
+	{
 		//lecture du type de fichier P5 ou P6
 		getline (myfile,line);
 		filetype = line;
 		if ((line.compare("P6") == 0))
 		{
-		cout << "je suis ici" << endl;		
+		cout << "je suis ici" << endl;
 		myfile.close();
 		openPPM(path);
-		}		
+		}
 		else
 		{
-		cout << "je suis la" << endl;	
-		myfile.close();		
+		cout << "je suis la" << endl;
+		myfile.close();
 		openPGM(path);
 		}
-	}	
+	}
 	else
 	cout << "erreur version image" << endl;
 
@@ -150,85 +150,84 @@ void Image::LireImg(string path)
 }
 
 void Image::openPGM(string path)
-{       
+{
 	PGM=1;
 	string line;
 	ifstream myfile(path, ios::binary);
-	int i =0;
 	string filetype = "";
 	int maxColor = 0;
 	string temp;
 	int nbrBytes;
 	char byte;
 	int pixel;
-	
-	
+
+
 int l=0;
 // TEST
 // initialisation a 0
 for(l=0; l<256; l++)
 {
 	_HistNb[l] = 0;
-	
-	
+
+
 }
 
 //Initialisation de la copie nb de l image
 ofstream ImageNb;
 ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
-	
+
 	if(myfile.is_open())
-	{	
+	{
 		//lecture du type de fichier P5 ou P6
 		getline (myfile,line);
 		filetype = line;
 
-		
+
 		//lecture des dimensions de l'image;
 		getline (myfile,line);
 		sscanf(line.c_str(),"%i %i",&_width,&_height);
 
 		//read max value
 		getline(myfile , line);
-		
+
 		maxColor = atoi ( line.c_str());
 
 		ImageNb <<	"P2" << "\n"; //p2 pour le noir et blanc pour afficher avec open cv
 		ImageNb <<	_width << " " << _height <<"\n";
 		ImageNb <<	maxColor << "\n";
-		
+
 		//cout << "Type du fichier : " << filetype << "\n";
 		//cout << "Taille : " << _width << " x " << _height << "\n";
 		//cout << "Max scale : " << maxColor << "\n\n\n";
-		
+
 		nbrBytes = _width * _height;
 
 		allocateMatrix(_height, _width);
 
 		int i=0; // ligne
 		int j=0; // colonne
-		int compteur=1;
-		unsigned int compteur_col=1;
-		unsigned int compteur_lign=1;
-		unsigned int compteurPIX=1;	
+
+		int compteur_col=1;
+
+		int compteurPIX=1;
 
 		while (nbrBytes != 0 )
-		{	
+		{
 			compteurPIX++;
 			myfile.get(byte);
 			pixel = byte;
 			if (byte<0)
 			{
 
-				
+
 				_MatriceImgNb[i][j] = pixel+256;
 				j=j+1;
 				//cout << j << endl;
 				ImageNb << pixel+256 << " ";
 				//compteur ++;
 				compteur_col ++;
-				//_HistNb[pixel+256]=_HistNb[pixel+256]+1;
-		
+				_HistNb[pixel+256]=_HistNb[pixel+256]+1;
+
 				if(compteur_col == _width)
 					{
 						ImageNb  << "\n";
@@ -236,7 +235,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 
 					}
 
-	
+
 			}
 			else
 				{
@@ -245,12 +244,12 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 					j=j+1;
 					ImageNb << pixel << " ";
 					nbrBytes--;
-					
+
 					compteur_col ++;
-					//_HistNb[pixel]=_HistNb[pixel]+1;
+					_HistNb[pixel]=_HistNb[pixel]+1;
 
 
-					
+
 					 if(compteur_col == _width)
 					{
 						ImageNb << "\n";
@@ -258,45 +257,91 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 
 
 					}
-					
+
 				}
-			
+
 			if(j == _width)
 				{	//Cette verification sert a pouvoir rester dans les dim de la matrice et la structurer
-				
-					
+
+
 					i=i+1;
 					j=0;
 				}
 			if(compteurPIX == (_width* _height))
 				{
-					
+
 					nbrBytes=0;
 			 	}
 		}
-		
-		
+
+
 		myfile.close();
 		ImageNb.close();
 
 	}
 
 
-	
+
 	else cout << "pas possible d ouvrir l image";
 
 
 
-}	
+}
+
+void Image::maxhist()
+{
+
+	 _maxNB = _HistNb[0];
+
+	if(PGM == 1 && PPM==0)
+	{
+	  for (int i = 0; i <255; i++)
+	    {
+	      if (_HistNb[i] > _maxNB)
+	        {
+	          _maxNB = _HistNb[i];
+	        }
+			}
+  }
+
+	if(PGM == 0 && PPM==1)
+	{
+		for (int i = 0; i <255; i++)
+			{
+				if (_HistRED[i] > _maxRED)
+					{
+						_maxRED = _HistRED[i];
+					}
+			}
+
+			for (int i = 0; i <255; i++)
+				{
+					if (_HistGREEN[i] > _maxGREEN)
+						{
+							_maxGREEN = _HistGREEN[i];
+						}
+				}
+				for (int i = 0; i <255; i++)
+					{
+						if (_HistBLUE[i] > _maxBLUE)
+							{
+								_maxBLUE = _HistBLUE[i];
+							}
+					}
+	}
+
+
+
+}
 
 
 
 void Image::allocateMatrix(int _height, int _width)
 {
-	
+
 	int h;
-	
-	_MatriceImgNb	= new int*[_height];
+
+	_MatriceImgNb	= new float*[_height];
 	_MatriceImgRED = new int*[_height];
 	_MatriceImgGREEN = new int*[_height];
 	_MatriceImgBLUE = new int*[_height];
@@ -308,10 +353,10 @@ void Image::allocateMatrix(int _height, int _width)
 
 	for(h = 0; h < _height; h++)
 		{
-			_MatriceImgNb[h] =   new int[_width];
+			_MatriceImgNb[h] =   new float[_width];
 			_MatriceImgRED[h] =  new int[_width];
 			_MatriceImgGREEN[h] =  new int[_width];
-			_MatriceImgBLUE[h] =  new int[_width];	
+			_MatriceImgBLUE[h] =  new int[_width];
 			_MatriceCovNB[h] = new int[_width];
 			_MatriceCovRED[h] = new int[_width];
 			_MatriceCovGREEN[h] = new int[_width];
@@ -322,11 +367,10 @@ void Image::allocateMatrix(int _height, int _width)
 
 
 void Image::openPPM(string path)
-{ 
+{
 PPM=1;
 string line;
 ifstream myfile(path, ios::binary);
-int i =0;
 string filetype = "";
 
 int maxColor = 0;
@@ -344,11 +388,11 @@ for(l=0; l<256; l++)
 	_HistRED[l] = 0;
 	_HistGREEN[l] =0;
 	_HistBLUE[l] =0;
-	
+
 }
 
 
-	
+
 
 //initialisation couleurs
 //ce ci sert pour d eventuels back ups
@@ -361,15 +405,15 @@ BLUE.open ("../test/ImageEnCoursDeTraitement/BLUE.pgm");
 ofstream verif;
 verif.open ("../test/ImageEnCoursDeTraitement/verif.txt");
 
-	
+
 if(myfile.is_open())
-	{	
+	{
 
 		// Lecture entete
 		// lecture du type de fichier P5 ou P6
 		getline (myfile,line);
 		filetype = line;
-	
+
 		//lecture des dimensions de l'image;
 		getline (myfile,line);
 		sscanf(line.c_str(),"%i %i",&_width,&_height);
@@ -377,7 +421,7 @@ if(myfile.is_open())
 		//read max value
 		getline(myfile , line);
 		maxColor = atoi ( line.c_str());
-		
+
 
 		// remise sour la forme des formats PGM pour afficher (pas obligatoire)
 
@@ -394,14 +438,14 @@ if(myfile.is_open())
 		BLUE << maxColor << "\n";
 
 		nbBytes = _width * _height * 3;
-	
+
 		// creation d une matrice pour un futur traitement
-		
+
 
 
 
 		allocateMatrix(_height, _width);
-		
+
 		//lecture pixels
 		// a faire attention, isoler les couleurs (R G B)
 
@@ -419,12 +463,12 @@ if(myfile.is_open())
 
 
 		int compteur=1;
-		unsigned int compteur_col=1;
-		unsigned int compteurPIX=1;
-		
+		int compteur_col=1;
+		int compteurPIX=1;
+
 	while (nbBytes != 0)
-		{	
-			
+		{
+
 			myfile.get(byte);
 			pixel = byte;
 
@@ -434,23 +478,23 @@ if(myfile.is_open())
 
 			if(byte<0)
 				{
-			
+
 					nbBytes--;
-			
+
 					if (compteur==1)
 						{
 							// MATRICE COULEUR ROUGE
 
   							RED << pixel+256 << " ";
 							_MatriceImgRED[i][j] = pixel+256;
-							//cout << _MatriceImgRED[i][j] << " "; 
+							//cout << _MatriceImgRED[i][j] << " ";
 							compteur++;
 							j=j+1;
 
 							// TEST Histogramme
 							_HistRED[pixel+256]=_HistRED[pixel+256]+1;
-							
-				
+
+
 						}
 					else if(compteur == 2 )
 						{
@@ -460,7 +504,7 @@ if(myfile.is_open())
 							s=s+1;
 							compteur++;
 							_HistGREEN[pixel+256]=_HistGREEN[pixel+256]+1;
-	
+
 
 						}
 					else
@@ -479,9 +523,9 @@ if(myfile.is_open())
 				}
 			else
 				{
-			
+
 					nbBytes--;
-		
+
 					if (compteur==1)
 						{
 							//ROUGE
@@ -490,7 +534,7 @@ if(myfile.is_open())
 							compteur++;
 							j=j+1;
 							_HistRED[pixel]=_HistRED[pixel]+1;
-							
+
 
 
 						}
@@ -511,31 +555,31 @@ if(myfile.is_open())
 							compteur = 1;
 							compteur_col ++;
 							f=f+1;
-							
+
 							_HistBLUE[pixel]=_HistBLUE[pixel]+1;
 							if(pixel>255 || pixel<0 )
 							verif << pixel <<" ";
 						}
 				}
-			
+
 			if(j == _width)
 				{	//Cette verification sert a pouvoir rester dans les dim de la matrice et la structurer
-				
+
 					i=i+1;
 					j=0;
-				}	
+				}
 			if(s == _width)
 				{
 					a=a+1;
 					s=0;
 				}
-			if(f == _width)	
+			if(f == _width)
 				{
 					d=d+1;
 					f=0;
-					
+
 				}
-			
+
 			if(compteur_col == _width && compteur == 3)
 				{
 
@@ -544,32 +588,32 @@ if(myfile.is_open())
 					BLUE << "\n";
 					//cout << compteur_col << " ";
 					compteur_col = 1;
-				
-				
+
+
 				}
-				
+
 			if(compteurPIX==_width*_height*3)
 				{
-					//cout << compteurPIX << endl; 
+					//cout << compteurPIX << endl;
 					nbBytes=0;
 			 	}
-			
-			
+
+
 		}
-		
+
 		RED.close();
 		GREEN.close();
 		BLUE.close();
 		verif.close();
 
 	}
-	else cout << "pas possible d ouvrir l image"<< endl;	
-		
+	else cout << "pas possible d ouvrir l image"<< endl;
+
 
 }
 
 void Image::histogramme()
-{ 
+{
 // MATRICES POUR LES HISTOGRAMMES DES COULEURS
 //Initialisation matrice histogramme
 
@@ -577,28 +621,29 @@ int n = 0;
 
 	if(PPM==1 && PGM==0)
 		{
-	Mat HISTR(256,256,CV_32FC1,0.0f);
-	Mat HISTG(256,256,CV_32FC1,0.0f);
-	Mat HISTB(256,256,CV_32FC1,0.0f);
+	maxhist();
+	Mat HISTR(_maxRED,256,CV_32FC1,0.0f);
+	Mat HISTG(_maxGREEN,256,CV_32FC1,0.0f);
+	Mat HISTB(_maxBLUE,256,CV_32FC1,0.0f);
 		for (n=0; n<256; n++)
 		{
-			
-			
-			//cout << n << " ";
-			HISTR.at<float>(256-_HistRED[n] ,n) = _HistRED[n];
-			HISTG.at<float>(256-_HistGREEN[n] ,n) = _HistGREEN[n];
-			HISTB.at<float>(256-_HistBLUE[n] ,n) = _HistBLUE[n];
-			
-		}
-		
 
-namedWindow( "HISTOGRAMME ROUGE ",  WINDOW_AUTOSIZE  );    
+
+			//cout << n << " ";
+			HISTR.at<float>(_maxRED-_HistRED[n] ,n) = _HistRED[n];
+			HISTG.at<float>(_maxGREEN-_HistGREEN[n] ,n) = _HistGREEN[n];
+			HISTB.at<float>(_maxBLUE-_HistBLUE[n] ,n) = _HistBLUE[n];
+
+		}
+
+
+namedWindow( "HISTOGRAMME ROUGE ",  WINDOW_AUTOSIZE  );
 imshow( "HISTOGRAMME  ROUGE ", HISTR );
 waitKey(0);
-namedWindow( "HISTOGRAMME VERT ",  WINDOW_AUTOSIZE  );    
+namedWindow( "HISTOGRAMME VERT ",  WINDOW_AUTOSIZE  );
 imshow( "HISTOGRAMME VERT ", HISTG );
 waitKey(0);
-namedWindow( "HISTOGRAMME BLEU ",  WINDOW_AUTOSIZE  );    
+namedWindow( "HISTOGRAMME BLEU ",  WINDOW_AUTOSIZE  );
 imshow( "HISTOGRAMME BLEU ", HISTB );
 waitKey(0);
 destroyAllWindows();
@@ -606,19 +651,20 @@ destroyAllWindows();
 
 if(PPM==0 && PGM==1)
 		{
-		Mat HISTNB(256,256,CV_32FC1,0.0f);
+			maxhist();
+		Mat HISTNB(_maxNB+10,256,CV_32FC1,0.0f);
 		for (n=0; n<256; n++)
 		{
-			
-			
-			//cout << n << " ";
-			HISTNB.at<float>(256-_HistNb[n] ,n) = _HistNb[n];
-			
-			
-		}
-		
 
-namedWindow( "HISTOGRAMME NOIR et BLANC ",  WINDOW_AUTOSIZE  );    
+
+			//cout << n << " ";
+			HISTNB.at<float>(_maxNB-_HistNb[n] ,n) = 255;
+
+
+		}
+
+
+namedWindow( "HISTOGRAMME NOIR et BLANC ",  WINDOW_AUTOSIZE  );
 imshow( "HISTOGRAMME NOIR et BLANC ", HISTNB );
 waitKey(0);
 destroyAllWindows();
@@ -632,56 +678,81 @@ void Image::Filtre()
 {
 	int choix=0;
 	cout << "quel type de filtrage voulez vous effectuer ?" << endl;
-	cout << "1-filtre moyenneur" << "\n" << "2-fitre gradient en X" << "\n" << "3-filtre gradient en Y" << "\n" << "4- filtre rehausseur" << endl;
+	cout << "1-filtre moyenneur" << "\n" << "2-fitre gradient en X" << "\n" << "3-filtre gradient en Y" << "\n" << "4-filtre rehausseur" << "\n"<< "5-generez votre propre filtre" << endl;
 	cin >> choix;
-	
+
 
 	if(choix == 1)
-{
+{ cout << "votre filter est de la forme :\n";
+
 	for(int i=0;i<3;i++)
 		{
 		for(int j=0;j<3;j++)
 			{
 			_Filtre[i][j]=filtre1[i][j];
+			cout << 	_Filtre[i][j]<<" ";
 			}
-		}	
+			cout << "\n";
+		}
 
 }
 	else if(choix == 2)
-	{
+	{cout << "votre filter est de la forme :\n";
 	for(int i=0;i<3;i++)
 		{
 		for(int j=0;j<3;j++)
 			{
+
 			_Filtre[i][j]=filtre2[i][j];
+			cout << 	_Filtre[i][j]<<" ";
 			}
+				cout << "\n";
 		}
 
 	}
 	else if(choix == 3)
-{
+{cout << "votre filter est de la forme :\n";
 	for(int i=0;i<3;i++)
 		{
 		for(int j=0;j<3;j++)
 			{
 			_Filtre[i][j]=filtre3[i][j];
+			cout << 	_Filtre[i][j]<<" ";
 			}
+			cout << "\n";
 		}
 
 }
-	else
-	{
+	else if(choix == 4)
+	{cout << "votre filter est de la forme :\n";
 	for(int i=0;i<3;i++)
 		{
 		for(int j=0;j<3;j++)
 			{
 			_Filtre[i][j]=filtre4[i][j];
+			cout << 	_Filtre[i][j]<<" ";
+			}
+			cout << "\n";
+		}
+
+	}
+	else
+	{
+		float a=0;
+	for(int i=0;i<3;i++)
+		{
+		for(int j=0;j<3;j++)
+			{
+				cout << "choisissez la valeur pour la ligne: " << i << " colonne: "<< j << endl;
+
+			cin >> a;
+			_Filtre[i][j]=a;
 			}
 		}
 
 	}
-		
-  
+
+
 }
 
 
@@ -689,133 +760,121 @@ void Image::Filtre()
 
 void Image::convolution()
 {
- 
-Filtre();
-	int n=_height ,m=_width;
-   
-    int somme=0;
-    
-	int sommeRED=0;
-	int sommeGREEN=0;
-	int sommeBLUE=0;
-	int sommeNb=0;
 
- 
-    
-   
-   for(int x=1;x<n-1;x++)
+Filtre();
+
+
+  float sommeRED=0;
+	float sommeGREEN=0;
+	float sommeBLUE=0;
+	float sommeNb=0;
+
+
+
+
+   for(int x=1;x<_height-1;x++)
    	{
-		
-		   for(int y=1;y<m-1;y++)
+
+		   for(int y=1;y<_width-1;y++)
    				{
 				   for(int i=-1;i<2;i++)
    						{
 						for(int j=-1;j<2;j++)
 							{
-   						
+
 
 						if(PPM==1 && PGM==0)
 							{
-   							
+
 							sommeRED=sommeRED+_MatriceImgRED[x+i][y+j]*_Filtre[i+1][j+1];
 							sommeGREEN=sommeGREEN+_MatriceImgGREEN[x+i][y+j]*_Filtre[i+1][j+1];
 							sommeBLUE=sommeBLUE+_MatriceImgBLUE[x+i][y+j]*_Filtre[i+1][j+1];
-			
+
 
 							sommeRED=round(sommeRED);
-							sommeGREEN=round(sommeGREEN);	
+							sommeGREEN=round(sommeGREEN);
 							sommeBLUE=round(sommeBLUE);
-
-						
-
-
-
 
 							}
 
 						if(PGM==1 && PPM==0)
 							{
-							
+
 							sommeNb=sommeNb+_MatriceImgNb[x+i][y+j]*_Filtre[i+1][j+1];
-							sommeNb=round(sommeNb);
-							
-							
-									
+							//cout << _MatriceImgNb[x+i][y+j]*_Filtre[i+1][j+1] << " ";
 
+						//		cout << sommeNb << " ";
+						//	cout << round(sommeNb) << endl;
 
-						
-							
-							
 						   }
-					
-					
-					
-			    
-				}	
-							if(sommeRED<0 )
-							sommeRED=0;
-							else if (sommeRED> 255)
-							{
-							sommeRED=255;
-														
-							}
-							else 
-							sommeRED=sommeRED;
-
-							if(sommeGREEN<0 )
-							sommeGREEN=0;
-							else if (sommeGREEN> 255)
-							{
-							sommeGREEN=255;
-														
-							}
-							else 
-							sommeGREEN=sommeGREEN;
-
-
-							if(sommeBLUE<0 )
-							sommeBLUE=0;
-							else if (sommeBLUE> 255)
-							{
-							sommeBLUE=255;
-														
-							}
-							else 
-							sommeBLUE=sommeBLUE;
-							
-							if(sommeNb<0 )
-							sommeNb=0;
-							else if (sommeNb> 255)
-							{
-							sommeNb=255;
-														
-							}
-							else 
-							sommeNb=sommeNb;
+				}
 							}
 
+										if(sommeRED<0 )
+										sommeRED=0;
+										else if (sommeRED> 255)
+										{
+										sommeRED=255;
 
-					
+										}
+										else
+										sommeRED=sommeRED;
+
+										if(sommeGREEN<0 )
+										sommeGREEN=0;
+										else if (sommeGREEN> 255)
+										{
+										sommeGREEN=255;
+
+										}
+										else
+										sommeGREEN=sommeGREEN;
+
+
+										if(sommeBLUE<0 )
+										sommeBLUE=0;
+										else if (sommeBLUE> 255)
+										{
+										sommeBLUE=255;
+
+										}
+										else
+										sommeBLUE=sommeBLUE;
+
+
+										sommeNb=round(sommeNb);
+										if(sommeNb<0 )
+										sommeNb=0;
+										else if (sommeNb> 255)
+										{
+										sommeNb=255;
+
+										}
+										else
+										sommeNb=sommeNb;
+
+
 					_MatriceCovNB[x][y]=sommeNb;
 					_MatriceCovRED[x][y]=sommeRED;
 					_MatriceCovGREEN[x][y]=sommeGREEN;
-					_MatriceCovBLUE[x][y]=sommeBLUE;			
-					
+					_MatriceCovBLUE[x][y]=sommeBLUE;
+
+					sommeNb=0;
 					sommeRED=0;
 					sommeGREEN=0;
 					sommeBLUE=0;
-			    
+
 			}
-		   
+
 	}
 
-	   
-		   
+
+
 }
 
 
 
-		
+
 void Image::afficher()
 {
 
@@ -828,7 +887,7 @@ monimage.open ("../test/ImageEnCoursDeTraitement/monimage");
 ofstream OPCV;
 OPCV.open ("../test/ImageEnCoursDeTraitement/OPVC.txt");
 ofstream MOI;
-MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");	
+MOI.open ("../test/ImageEnCoursDeTraitement/MOI.txt");
 
 int v=0;
 int b=0;
@@ -853,21 +912,21 @@ ImageTraiteeNB.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeNB.pgm");
 
 ImageTraiteeNB << "P2" << "\n";
 ImageTraiteeNB << _width << " " << _height <<"\n";
-ImageTraiteeNB << 255 << "\n";	
+ImageTraiteeNB << 255 << "\n";
 
 for(h=0; h<_height ; h++ )
 	{
-	for(j=0; j<_width ;j++ )	
-		{			
-		ImageTraiteeNB << _MatriceCovNB[h][j] << " ";	
+	for(j=0; j<_width ;j++ )
+		{
+		ImageTraiteeNB << _MatriceCovNB[h][j] << " ";
 
-		if (j == _width)	
+		if (j == _width)
 		{
 
 		ImageTraiteeNB << "\n";
-		
+
 		}
-		}	
+		}
 	}
 
 ImageTraiteeNB.close();
@@ -876,9 +935,9 @@ if(PGM==0 && PPM==1)
 {
 
 ofstream ImageTraiteeRED;
-ImageTraiteeRED.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeRED.pgm");	
+ImageTraiteeRED.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeRED.pgm");
 ofstream ImageTraiteeGREEN;
-ImageTraiteeGREEN.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeGREEN.pgm");	
+ImageTraiteeGREEN.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeGREEN.pgm");
 ofstream ImageTraiteeBLUE;
 ImageTraiteeBLUE.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeBLUE.pgm");
 ImageTraiteeRED << "P2" << "\n";
@@ -890,50 +949,50 @@ ImageTraiteeGREEN << 255 << "\n";
 ImageTraiteeBLUE << "P2" << "\n";
 ImageTraiteeBLUE << _width << " " << _height <<"\n";
 ImageTraiteeBLUE << 255 << "\n";
-	
+
 for(h=0; h<_height ; h++ )
 	{
-	for(j=0; j<_width ;j++ )	
-		{			
-		ImageTraiteeRED << _MatriceCovRED[h][j] << " ";	
+	for(j=0; j<_width ;j++ )
+		{
+		ImageTraiteeRED << _MatriceCovRED[h][j] << " ";
 		ImageTraiteeGREEN << _MatriceCovGREEN[h][j] << " ";
-		ImageTraiteeBLUE << _MatriceCovBLUE[h][j] << " ";		
-		
+		ImageTraiteeBLUE << _MatriceCovBLUE[h][j] << " ";
 
-		if (j == _width)	
+
+		if (j == _width)
 		{
 
 		ImageTraiteeRED << "\n";
 		ImageTraiteeGREEN << "\n";
 		ImageTraiteeBLUE << "\n";
 		}
-		}	
+		}
 	}
 ImageTraiteeRED.close();
 ImageTraiteeGREEN.close();
 ImageTraiteeBLUE.close();
 
-}	
+}
 
 
-		for (v=0; v<_height ; v++ )	
+		for (v=0; v<_height ; v++ )
 			{
 			for(b=0; b< _width*3; b++ )
 				{
-					
 
-					
+
+
 
 					if(PGM==1 && PPM==0)
 					{
 					imageTraiteeNB.at<uchar>(v,b)=_MatriceCovNB[v][a];
 					imageTraiteeNB.at<uchar>(v,b+1)=_MatriceCovNB[v][a];
 					imageTraiteeNB.at<uchar>(v,b+2)=_MatriceCovNB[v][a];
-					
+
 					imageOriginaleNB.at<uchar>(v,b)=_MatriceImgNb[v][a];
 					imageOriginaleNB.at<uchar>(v,b+1)=_MatriceImgNb[v][a];
 					imageOriginaleNB.at<uchar>(v,b+2)=_MatriceImgNb[v][a];
-						
+
 
 					if(a<_width-1)
 					a=a+1;
@@ -943,8 +1002,8 @@ ImageTraiteeBLUE.close();
 					}
 					b=b+2;
 					}
-				
-					
+
+
 
 
 
@@ -956,18 +1015,18 @@ ImageTraiteeBLUE.close();
 					imageTraiteeRED.at<uchar>(v,b)=_MatriceCovRED[v][a];
 					imageTraiteeRED.at<uchar>(v,b+1)=_MatriceCovRED[v][a];
 					imageTraiteeRED.at<uchar>(v,b+2)=_MatriceCovRED[v][a];
-					
-					
+
+
 					imageTraiteeGREEN.at<uchar>(v,b)=_MatriceCovGREEN[v][a];
 					imageTraiteeGREEN.at<uchar>(v,b+1)=_MatriceCovGREEN[v][a];
 					imageTraiteeGREEN.at<uchar>(v,b+2)=_MatriceCovGREEN[v][a];
-					
-					
+
+
 					imageTraiteeBLUE.at<uchar>(v,b)=_MatriceCovBLUE[v][a];
 					imageTraiteeBLUE.at<uchar>(v,b+1)=_MatriceCovBLUE[v][a];
 					imageTraiteeBLUE.at<uchar>(v,b+2)=_MatriceCovBLUE[v][a];
-					
-					
+
+
 
 
 					imageOriginaleRED.at<uchar>(v,b)=_MatriceImgRED[v][a];
@@ -981,81 +1040,67 @@ ImageTraiteeBLUE.close();
 					imageOriginaleBLUE.at<uchar>(v,b)=_MatriceImgBLUE[v][a];
 					imageOriginaleBLUE.at<uchar>(v,b+1)=_MatriceImgBLUE[v][a];
 					imageOriginaleBLUE.at<uchar>(v,b+2)=_MatriceImgBLUE[v][a];
-					
+
 
 					if(a<_width-1)
 					a=a+1;
 					else
 					{
 					a=0;
-					
+
 					}
 
 					b=b+2;
 
 
 
-					}						
+					}
 
-					
 
-		}	
+
+		}
 
 	}
 
 
 		if(PGM==1 && PPM==0)
 		{
-		namedWindow( "image traitee NOIRE ET BLANC");   
+		namedWindow( "image traitee NOIRE ET BLANC");
 		imshow( "image traitee NOIRE ET BLANC", imageTraiteeNB);
 		waitKey(0);
-		destroyAllWindows();  
-		namedWindow( "image originale NOIRE ET BLANC");   
-		imshow( "image originale NOIRE ET BLANC", imageOriginaleNB);     
+		namedWindow( "image originale NOIRE ET BLANC");
+		imshow( "image originale NOIRE ET BLANC", imageOriginaleNB);
 
 		waitKey(0);
-		destroyAllWindows();   
-		}             
-		
+		destroyAllWindows();
+		}
+
 
 		if(PPM==1 && PGM==0)
 		{
-			
-		namedWindow( "image traitee ROUGE");   
-		imshow( "image traitee ROUGE", imageTraiteeRED); 
-		waitKey(0);
-		destroyAllWindows(); 
-		namedWindow( "image originale ROUGE");   
+
+		namedWindow( "image traitee ROUGE");
+		imshow( "image traitee ROUGE", imageTraiteeRED);
+	  waitKey(0);
+		namedWindow( "image originale ROUGE");
 		imshow( "image originale ROUGE", imageOriginaleRED);
 		waitKey(0);
-		destroyAllWindows();
-
-		namedWindow( "image traitee VERTE");   
-		imshow( "image traitee VERTE", imageTraiteeGREEN); 
+		namedWindow( "image traitee VERTE");
+		imshow( "image traitee VERTE", imageTraiteeGREEN);
 		waitKey(0);
-		destroyAllWindows(); 
-		namedWindow( "image originale VERTE");   
+		namedWindow( "image originale VERTE");
 		imshow( "image originale VERTE", imageOriginaleGREEN);
+
+		waitKey(0);
+		namedWindow( "image traitee BLEU");
+		imshow( "image traitee BLEU", imageTraiteeBLUE);
+		waitKey(0);
+		namedWindow( "image originale BLEU");
+		imshow( "image originale BLEU", imageOriginaleBLUE);
 		waitKey(0);
 		destroyAllWindows();
 
-		namedWindow( "image traitee BLEU");   
-		imshow( "image traitee BLEU", imageTraiteeBLUE); 
-		waitKey(0);
-		destroyAllWindows(); 
-		namedWindow( "image originale BLEU");   
-		imshow( "image originale BLEU", imageOriginaleBLUE); 
-		waitKey(0);
-		destroyAllWindows();
 
-                		
 
 		}
 }
-		
-
-
-
-
-
-

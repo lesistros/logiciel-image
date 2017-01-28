@@ -6,7 +6,7 @@
 #include <sstream>
 #include <algorithm>
 
- 
+
 #include "Bibliotheque.h"
 #include "imageIO.h"
 
@@ -24,7 +24,7 @@ using namespace std;
 
 
 
-int main( int argc, char** argv)
+int main()
 {
 
 
@@ -32,15 +32,15 @@ int main( int argc, char** argv)
 
 	vector<Bibliotheque> liste;
 	//remplissage de la liste
-	
+
 	liste.push_back(Bibliotheque( 1 , "lena" ,46));cout<<endl;
     liste.push_back(Bibliotheque( 2 , "house" ,24)); cout<<endl;
     liste.push_back(Bibliotheque( 3 , "west" ,46));cout<<endl;
-    
-    
-    
+
+
+
     int choix;
-   do { 
+   do {
       cout<< "\t----- Bonjour -----" <<endl;
       cout<< "\t 1 - Ajout" <<endl;
       cout<< "\t 2 - Affichage" <<endl;
@@ -61,19 +61,19 @@ int main( int argc, char** argv)
 
 		case 6: cout<<"sortir du programme";break;
 		default:cout<<"erreur;r";break;
-		}	
+		}
 	}
-		while (choix!=6);	
+		while (choix!=6);
 
 
 // TRAITEMENT D IMAGE
 	Image  Tree;
 
 	Tree.LireImg("../test/sample/lena.pgm");
-	
+
 	//Tree.openPPM("/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm");
 	Tree.histogramme();
-	
+
 
 	Tree.convolution();
 	Tree.afficher();
