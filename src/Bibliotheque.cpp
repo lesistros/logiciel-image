@@ -22,6 +22,7 @@ using namespace std;
 			_chemin=chemin;
 			_droit=droit;
 	}
+	
 
 // les accesseurs
 
