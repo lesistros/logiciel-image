@@ -25,9 +25,10 @@ class Image
 	string _nom;
 	int PPM=0;
 	int PGM=0;
-  	int _width;
+  int _maxcolor;
+  int _width;
 	int _height;
-  	int _prix;
+  int _prix;
 	float** _MatriceImgNb;
 	int** _MatriceImgRED;
 	int** _MatriceImgGREEN;

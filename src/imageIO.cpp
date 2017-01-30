@@ -11,7 +11,6 @@
 
 
 #include "opencv2/core.hpp"
-#include "opencv2/face.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/objdetect.hpp"
@@ -155,7 +154,7 @@ void Image::openPGM(string path)
 	string line;
 	ifstream myfile(path, ios::binary);
 	string filetype = "";
-	int maxColor = 0;
+	_maxcolor = 0;
 	string temp;
 	int nbrBytes;
 	char byte;
@@ -190,18 +189,12 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 		//read max value
 		getline(myfile , line);
 
-		maxColor = atoi ( line.c_str());
+		_maxcolor = atoi ( line.c_str());
 
 		ImageNb <<	"P2" << "\n"; //p2 pour le noir et blanc pour afficher avec open cv
 		ImageNb <<	_width << " " << _height <<"\n";
-		ImageNb <<	maxColor << "\n";
-
-		//cout << "Type du fichier : " << filetype << "\n";
-		//cout << "Taille : " << _width << " x " << _height << "\n";
-		//cout << "Max scale : " << maxColor << "\n\n\n";
-
+		ImageNb <<	_maxcolor << "\n";
 		nbrBytes = _width * _height;
-
 		allocateMatrix(_height, _width);
 
 		int i=0; // ligne
@@ -222,9 +215,7 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 
 				_MatriceImgNb[i][j] = pixel+256;
 				j=j+1;
-				//cout << j << endl;
 				ImageNb << pixel+256 << " ";
-				//compteur ++;
 				compteur_col ++;
 				_HistNb[pixel+256]=_HistNb[pixel+256]+1;
 
@@ -240,7 +231,6 @@ ImageNb.open ("../test/ImageEnCoursDeTraitement/ImageNb.pgm");
 			else
 				{
 					_MatriceImgNb[i][j] = pixel;
-					//cout << j << endl;
 					j=j+1;
 					ImageNb << pixel << " ";
 					nbrBytes--;
@@ -373,7 +363,7 @@ string line;
 ifstream myfile(path, ios::binary);
 string filetype = "";
 
-int maxColor = 0;
+_maxcolor = 0;
 string temp;
 int nbBytes;
 char byte;
@@ -420,22 +410,22 @@ if(myfile.is_open())
 
 		//read max value
 		getline(myfile , line);
-		maxColor = atoi ( line.c_str());
+		_maxcolor = atoi ( line.c_str());
 
 
 		// remise sour la forme des formats PGM pour afficher (pas obligatoire)
 
 		RED <<	"P2" << "\n"; //p2 pour le noir et blanc pour afficher avec open cv
 		RED <<	_width << " " << _height <<"\n";
-		RED <<	maxColor << "\n";
+		RED <<	_maxcolor << "\n";
 
 		GREEN << "P2" << "\n";
 		GREEN << _width << " " << _height <<"\n";
-		GREEN << maxColor << "\n";
+		GREEN << _maxcolor << "\n";
 
 		BLUE << "P2" << "\n";
 		BLUE << _width << " " << _height <<"\n";
-		BLUE << maxColor << "\n";
+		BLUE << _maxcolor << "\n";
 
 		nbBytes = _width * _height * 3;
 
@@ -487,7 +477,6 @@ if(myfile.is_open())
 
   							RED << pixel+256 << " ";
 							_MatriceImgRED[i][j] = pixel+256;
-							//cout << _MatriceImgRED[i][j] << " ";
 							compteur++;
 							j=j+1;
 
@@ -586,7 +575,6 @@ if(myfile.is_open())
 					RED << "\n";
 					GREEN << "\n";
 					BLUE << "\n";
-					//cout << compteur_col << " ";
 					compteur_col = 1;
 
 
@@ -594,7 +582,6 @@ if(myfile.is_open())
 
 			if(compteurPIX==_width*_height*3)
 				{
-					//cout << compteurPIX << endl;
 					nbBytes=0;
 			 	}
 
@@ -608,8 +595,6 @@ if(myfile.is_open())
 
 	}
 	else cout << "pas possible d ouvrir l image"<< endl;
-
-
 }
 
 void Image::histogramme()
@@ -655,12 +640,7 @@ if(PPM==0 && PGM==1)
 		Mat HISTNB(_maxNB+10,256,CV_32FC1,0.0f);
 		for (n=0; n<256; n++)
 		{
-
-
-			//cout << n << " ";
 			HISTNB.at<float>(_maxNB-_HistNb[n] ,n) = 255;
-
-
 		}
 
 
@@ -755,9 +735,6 @@ void Image::Filtre()
 
 }
 
-
-
-
 void Image::convolution()
 {
 
@@ -768,9 +745,6 @@ Filtre();
 	float sommeGREEN=0;
 	float sommeBLUE=0;
 	float sommeNb=0;
-
-
-
 
    for(int x=1;x<_height-1;x++)
    	{
@@ -801,10 +775,6 @@ Filtre();
 							{
 
 							sommeNb=sommeNb+_MatriceImgNb[x+i][y+j]*_Filtre[i+1][j+1];
-							//cout << _MatriceImgNb[x+i][y+j]*_Filtre[i+1][j+1] << " ";
-
-						//		cout << sommeNb << " ";
-						//	cout << round(sommeNb) << endl;
 
 						   }
 				}
@@ -912,7 +882,7 @@ ImageTraiteeNB.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeNB.pgm");
 
 ImageTraiteeNB << "P2" << "\n";
 ImageTraiteeNB << _width << " " << _height <<"\n";
-ImageTraiteeNB << 255 << "\n";
+ImageTraiteeNB << _maxcolor << "\n";
 
 for(h=0; h<_height ; h++ )
 	{
@@ -942,13 +912,13 @@ ofstream ImageTraiteeBLUE;
 ImageTraiteeBLUE.open ("../test/ImageEnCoursDeTraitement/ImageTraiteeBLUE.pgm");
 ImageTraiteeRED << "P2" << "\n";
 ImageTraiteeRED << _width << " " << _height <<"\n";
-ImageTraiteeRED << 255 << "\n";
+ImageTraiteeRED << _maxcolor << "\n";
 ImageTraiteeGREEN << "P2" << "\n";
 ImageTraiteeGREEN << _width << " " << _height <<"\n";
-ImageTraiteeGREEN << 255 << "\n";
+ImageTraiteeGREEN << _maxcolor << "\n";
 ImageTraiteeBLUE << "P2" << "\n";
 ImageTraiteeBLUE << _width << " " << _height <<"\n";
-ImageTraiteeBLUE << 255 << "\n";
+ImageTraiteeBLUE << _maxcolor << "\n";
 
 for(h=0; h<_height ; h++ )
 	{
