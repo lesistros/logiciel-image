@@ -96,7 +96,7 @@ using namespace std;
 	{
 	cout<< "\t----- LISTE DES IMAGES -----\t\n\n\n" ;
 	cout<<" \tNumero \t Titre \t Cout\n";
-		for (int it =0 ; it < _liste.size(); it++)
+		for (unsigned int it =0 ; it < _liste.size(); it++)
 		 {
 		 cout<<" \t" <<_liste[it].GetNumero()<<" \t" <<_liste[it].GetTitre()<< " \t" <<_liste[it].GetCout()<<endl;
   		 }
@@ -106,10 +106,10 @@ using namespace std;
 	{
 	 cout<< "\t----- LISTE DES IMAGES -----\t\n\n\n" ;
      cout<<" \tNumero \t Titre \t Cout\n";
-		for (int it =0 ; it < _liste.size(); it++)
+		for (unsigned int it =0 ; it < _liste.size(); it++)
 		  if(_liste[it].GetDroit()=='L')
 		 _sousliste.push_back(_liste[it]);
-		 for (int i =0 ;i < _sousliste.size(); i++)
+		 for (unsigned int i =0 ;i < _sousliste.size(); i++)
 		 cout<<" \t" <<i+1<<" \t" <<_sousliste[i].GetTitre()<< " \t" <<_sousliste[i].GetCout()<<endl;
 
   	cout<< "\n\t----- Fin liste. -----" <<endl;
@@ -135,11 +135,11 @@ void Bibliotheque::recherche(const vector<Bibliotheque>&_liste, vector<Bibliothe
     char titre[20];
     cin>>titre;
 
-    for (int it = 0; it<_liste.size(); it++) //parcours de la liste
+    for (unsigned int it = 0; it<_liste.size(); it++) //parcours de la liste
        if(titre==_liste[it].GetTitre())
         _sousliste.push_back(_liste[it]);
     sort(_sousliste.begin(),_sousliste.end());cout<<endl;
-    for(int it = 0; it<_sousliste.size(); it++)
+    for(unsigned int it = 0; it<_sousliste.size(); it++)
 		cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout()<<endl;
 		_sousliste.clear();			//vider la sous liste
 
@@ -155,11 +155,11 @@ void Bibliotheque::recherche(const vector<Bibliotheque>&_liste, vector<Bibliothe
    cin>>Cout;
    // 1 er cas
    if (Cout[1]=='a')
-    {for (int it = 0; it<_liste.size(); it++) //parcours de la liste
+    {for (unsigned int it = 0; it<_liste.size(); it++) //parcours de la liste
       if (_liste[it].GetCout() == 0)
     _sousliste.push_back(_liste[it]);// chargement dela sous liste si la condition est verifi�e.
     sort(_sousliste.begin(),_sousliste.end());cout<<endl; // trie de la sous liste
-    for(int it = 0; it<_sousliste.size(); it++)// affichage de la sous liste tri�e
+    for(unsigned int it = 0; it<_sousliste.size(); it++)// affichage de la sous liste tri�e
 		cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout()<<endl;
 
    _sousliste.clear();
@@ -169,22 +169,22 @@ void Bibliotheque::recherche(const vector<Bibliotheque>&_liste, vector<Bibliothe
 
 	if(Cout[0]=='b')
     {
-	for (int it = 0; it<_liste.size(); it++)
+	for (unsigned int it = 0; it<_liste.size(); it++)
 		if (_liste[it].GetCout()<=9.99)
        _sousliste.push_back(_liste[it]); // chargement de la sous liste
 	    sort(_sousliste.begin(),_sousliste.end());cout<<endl;// trie de la sous liste
-    for(int it = 0; it<_sousliste.size(); it++) //affichage de la sous liste trie�
+    for(unsigned int it = 0; it<_sousliste.size(); it++) //affichage de la sous liste trie�
 		cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout()<<endl;
 	 _sousliste.clear();
 	}
 	///***** 3eme cas
 	if(Cout[0]=='c')
     {
-	for (int it = 0; it<_liste.size(); it++)
+	for (unsigned int it = 0; it<_liste.size(); it++)
     if (_liste[it].GetCout()<=99.99 && _liste[it].GetCout()>=10 )
 		_sousliste.push_back(_liste[it]);
     sort(_sousliste.begin(),_sousliste.end());cout<<endl;
-    for(int it = 0; it<_sousliste.size(); it++)
+    for(unsigned int it = 0; it<_sousliste.size(); it++)
 
 	cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout()<<endl;
 	_sousliste.clear();
@@ -194,11 +194,11 @@ void Bibliotheque::recherche(const vector<Bibliotheque>&_liste, vector<Bibliothe
 	//***** 4eme cas
     if(Cout[0]=='d')
    {
-	 for (int it = 0; it<_liste.size(); it++)
+	 for (unsigned int it = 0; it<_liste.size(); it++)
     if (_liste[it].GetCout()>=100)
 		_sousliste.push_back(_liste[it]);
    sort(_sousliste.begin(),_sousliste.end());cout<<endl;
-    for(int it = 0; it<_sousliste.size(); it++)
+    for(unsigned int it = 0; it<_sousliste.size(); it++)
    	cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout()<<endl;
 	_sousliste.clear();
 	}
@@ -212,12 +212,12 @@ void Bibliotheque::recherche(const vector<Bibliotheque>&_liste, vector<Bibliothe
 		cin>>min;
 		cout<<" max"<<endl;
 		cin>>max;
-		for (int it = 0; it<_liste.size(); it++)
+		for (unsigned int it = 0; it<_liste.size(); it++)
 		if (_liste[it].GetCout()>=min && _liste[it].GetCout()<=max )
 		_sousliste.push_back(_liste[it]);
 
 	sort(_sousliste.begin(),_sousliste.end());cout<<endl;
-	for(int it = 0; it<_sousliste.size(); it++)
+	for(unsigned int it = 0; it<_sousliste.size(); it++)
 		cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout()<<endl;
 		_sousliste.clear();
 }
@@ -263,16 +263,16 @@ void Bibliotheque::modification(vector<Bibliotheque>&_liste)
 	cout<< "\t----- SUPPRESSION D'UNE Image -----\t\n\n" ;
    cout<< "\n numero de l image  � supprimer : " ;
    int numero;
-   int k=numero;
+
    cin>>numero;
 
    bool suppression = false;
-   for (int it = 0; it<_liste.size(); it++)
+   for (unsigned int it = 0; it<_liste.size(); it++)
       if ( _liste[it].GetNumero() == numero )
 	  {
 	  	  _liste.erase (_liste.begin()+it);   //suppression de l'image
          suppression = true;
-         for(int i=it;i<_liste.size();i++)   // r�arangement des num�ros des images suivantes
+         for(unsigned int i=it;i<_liste.size();i++)   // r�arangement des num�ros des images suivantes
          {	_liste[i].SetNumero(i+1);}
          cout<< "\n----- Image supprim�e. -----\n" ;
          break;
@@ -290,7 +290,7 @@ void Bibliotheque::modification(vector<Bibliotheque>&_liste)
 		ofstream liste_Image;
     	liste_Image.open ("/home/lesistros/Documents/logiciel-image/src/Ma_liste.txt"); // ouverture du fichier en ecriture
     	liste_Image<<"\t Num�ro \t Titre \t Cout \t Chemin \t Droit d'acc�s\n";
-		for (int it = 0; it<_liste.size(); it++)   // remplissage du fichier
+		for (unsigned int it = 0; it<_liste.size(); it++)   // remplissage du fichier
 		{
 		liste_Image<<" \t "<<_liste[it].GetNumero()<<" \t \t";
 		liste_Image<<_liste[it].GetTitre()<<" \t ";
@@ -323,10 +323,10 @@ struct trie_titre
 // trie par cout
 void Bibliotheque::trie_par_cout(const vector<Bibliotheque>& _liste, vector<Bibliotheque>&_sousliste)
 {
-	for (int it = 0; it<_liste.size(); it++)
+	for (unsigned int it = 0; it<_liste.size(); it++)
 	_sousliste.push_back(_liste[it]);
 	sort(_sousliste.begin(),_sousliste.end());
-	for (int it = 0; it<_sousliste.size(); it++)
+	for (unsigned int it = 0; it<_sousliste.size(); it++)
 		cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout();
 		_sousliste.clear();
 
@@ -334,12 +334,12 @@ void Bibliotheque::trie_par_cout(const vector<Bibliotheque>& _liste, vector<Bibl
 
 void Bibliotheque::trie_par_titre(const vector<Bibliotheque>& _liste, vector<Bibliotheque>&_sousliste)
 {
-	for (int it = 0; it<_liste.size(); it++)
+	for (unsigned int it = 0; it<_liste.size(); it++)
 
 	_sousliste.push_back(_liste[it]);
 	sort(_sousliste.begin(),_sousliste.end(),trie_titre());
 
-	for (int it = 0; it<_sousliste.size(); it++)
+	for (unsigned int it = 0; it<_sousliste.size(); it++)
 		cout<< "\n" <<_sousliste[it].GetNumero()<< "\t" <<_sousliste[it].GetTitre()<< "\t" <<_sousliste[it].GetCout();
     _sousliste.clear();
 }
