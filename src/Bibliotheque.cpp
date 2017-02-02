@@ -371,7 +371,7 @@ void Bibliotheque::trie( vector<Bibliotheque>&_liste,vector<Bibliotheque>&_sousl
 		//vector<Bibliotheque> liste;
 		vector<Bibliotheque> sousliste;
 		// contenu de la liste
-			liste.push_back(Bibliotheque( 6 , "lena" ,46, "/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm" ,'L'));cout<<endl;
+			liste.push_back(Bibliotheque( 1 , "lena" ,46, "/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm" ,'L'));cout<<endl;
     		liste.push_back(Bibliotheque( 2 , "house" ,244, "/home/lesistros/Documents/logiciel-image/test/sample/house_1.ppm" ,'R')); cout<<endl;
     		liste.push_back(Bibliotheque( 3 , "west" ,446, "/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm" ,'L'));cout<<endl;
         liste.push_back(Bibliotheque( 4 , "tree" ,24, "/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm" ,'R')); cout<<endl;
