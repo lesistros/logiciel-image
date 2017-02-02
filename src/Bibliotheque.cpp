@@ -22,7 +22,7 @@ using namespace std;
 			_chemin=chemin;
 			_droit=droit;
 	}
-	
+
 
 // les accesseurs
 
@@ -288,7 +288,7 @@ void Bibliotheque::modification(vector<Bibliotheque>&_liste)
 	{ string path;
 	//	ifstream mon_fichier(path, ios::binary);
 		ofstream liste_Image;
-    	liste_Image.open ("C:/Users/Administrateur/Documents/testclasse/bismillah/Ma_liste.txt"); // ouverture du fichier en ecriture
+    	liste_Image.open ("/home/lesistros/Documents/logiciel-image/src/Ma_liste.txt"); // ouverture du fichier en ecriture
     	liste_Image<<"\t Num�ro \t Titre \t Cout \t Chemin \t Droit d'acc�s\n";
 		for (int it = 0; it<_liste.size(); it++)   // remplissage du fichier
 		{
@@ -366,14 +366,21 @@ void Bibliotheque::trie( vector<Bibliotheque>&_liste,vector<Bibliotheque>&_sousl
  //************************ Identification et appel des differentes fonctions**************
 
 
-	void Bibliotheque::identification()
+	void Bibliotheque::identification(vector<Bibliotheque>& liste)
 	{	Bibliotheque Im;
-		vector<Bibliotheque> liste;
+		//vector<Bibliotheque> liste;
 		vector<Bibliotheque> sousliste;
 		// contenu de la liste
-			liste.push_back(Bibliotheque( 1 , "lena" ,46,"chemin",'L'));cout<<endl;
-    		liste.push_back(Bibliotheque( 2 , "house" ,24,"chemin",'R')); cout<<endl;
-    		liste.push_back(Bibliotheque( 3 , "west" ,46,"chemin",'L'));cout<<endl;
+			liste.push_back(Bibliotheque( 6 , "lena" ,46, "/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm" ,'L'));cout<<endl;
+    		liste.push_back(Bibliotheque( 2 , "house" ,244, "/home/lesistros/Documents/logiciel-image/test/sample/house_1.ppm" ,'R')); cout<<endl;
+    		liste.push_back(Bibliotheque( 3 , "west" ,446, "/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm" ,'L'));cout<<endl;
+        liste.push_back(Bibliotheque( 4 , "tree" ,24, "/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm" ,'R')); cout<<endl;
+        liste.push_back(Bibliotheque( 5 , "stop" ,460, "/home/lesistros/Documents/logiciel-image/test/sample/stop_1.ppm",'L'));cout<<endl;
+
+
+
+
+
 
 		int choix;
 
@@ -408,7 +415,7 @@ void Bibliotheque::trie( vector<Bibliotheque>&_liste,vector<Bibliotheque>&_sousl
 		case 5:	Im.trie(liste,sousliste);break;
 		case 6:	Im.suppression(liste);break;
 		case 7:	Im.sauvegarde(liste);break;
-
+  //  case 8: Im.LireImg(liste.getChemin())
 		case 8: cout<<"sortir du programme";break;
 		default:cout<<"erreur;r";break;
 		}
@@ -448,3 +455,31 @@ void Bibliotheque::trie( vector<Bibliotheque>&_liste,vector<Bibliotheque>&_sousl
 
 		}
 	}
+
+string  Bibliotheque::choisir(vector<Bibliotheque>& liste)
+{
+    int numero;
+    cout<<"\n\n\n\n donnez le numero de l image que vous souhaitez traiter\n\n\n " << endl;
+    cin >> numero;
+
+    return liste[numero-1].GetChemin();
+
+
+
+
+}
+
+void Bibliotheque::DefinirListe(vector<Bibliotheque>& liste)
+{
+  liste.push_back(Bibliotheque( 1 , "lena" ,46, "/home/lesistros/Documents/logiciel-image/test/sample/lena.pgm" ,'L'));cout<<endl;
+  liste.push_back(Bibliotheque( 2 , "house" ,244, "/home/lesistros/Documents/logiciel-image/test/sample/house_1.ppm" ,'R')); cout<<endl;
+  liste.push_back(Bibliotheque( 3 , "west" ,446, "/home/lesistros/Documents/logiciel-image/test/sample/west_1.ppm" ,'L'));cout<<endl;
+  liste.push_back(Bibliotheque( 4 , "tree" ,24, "/home/lesistros/Documents/logiciel-image/test/sample/tree_1.ppm" ,'R')); cout<<endl;
+  liste.push_back(Bibliotheque( 5 , "stop" ,460, "/home/lesistros/Documents/logiciel-image/test/sample/stop_1.ppm",'L'));cout<<endl;
+
+
+
+
+
+
+}

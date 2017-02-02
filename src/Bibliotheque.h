@@ -40,7 +40,7 @@ class Bibliotheque
    		void SetDroit(char droit);
 
    		// les fonctions a impl�menter
-
+string choisir(vector<Bibliotheque>&);
    		void ajout(vector<Bibliotheque>&);
 		void affichage(const vector<Bibliotheque>&);
 		void affichage_limite(const vector<Bibliotheque>&,vector<Bibliotheque>&);
@@ -53,7 +53,8 @@ class Bibliotheque
 	    void trie( vector<Bibliotheque>& _liste, vector<Bibliotheque>&_sousliste);
 		void trie_par_cout(const vector<Bibliotheque>& _liste, vector<Bibliotheque>&_sousliste);
 		void trie_par_titre(const vector<Bibliotheque>& _liste, vector<Bibliotheque>&_sousliste);
-		void identification();
+		void identification(vector<Bibliotheque>&);
+    void DefinirListe(vector<Bibliotheque>&);
 
 
 };

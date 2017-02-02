@@ -8,7 +8,7 @@
 #include <algorithm>
 
 #include"imageIO.h"
-
+//#include"Bibliotheque.h"
 
 #include "opencv2/core.hpp"
 #include "opencv2/highgui.hpp"
@@ -113,11 +113,26 @@ void Image::setPrix(int prix)
 		_prix=prix;
 	}
 
+/*
+
+string Image::ChoixImage(vector<Bibliotheque>&_liste )
+  	{
+
+//      int choix;
+  //    cout<<"choisissez le neméro de l'image ";
+    //  cin>>choix;
+      //return _liste[choix].GetChemin();
+
+
+
+  	}
+*/
 
 void Image::LireImg(string path)
 {
 
-
+//vector<Bibliotheque> _liste;
+//liste.GetChemin;
 
 	string line;
 	ifstream myfile(path, ios::binary);
@@ -130,13 +145,13 @@ void Image::LireImg(string path)
 		filetype = line;
 		if ((line.compare("P6") == 0))
 		{
-		cout << "je suis ici" << endl;
+
 		myfile.close();
 		openPPM(path);
 		}
 		else
 		{
-		cout << "je suis la" << endl;
+
 		myfile.close();
 		openPGM(path);
 		}
@@ -150,6 +165,8 @@ void Image::LireImg(string path)
 
 void Image::openPGM(string path)
 {
+
+
 	PGM=1;
 	string line;
 	ifstream myfile(path, ios::binary);
@@ -657,7 +674,7 @@ destroyAllWindows();
 void Image::Filtre()
 {
 	int choix=0;
-	cout << "quel type de filtrage voulez vous effectuer ?" << endl;
+	cout << "\n\n\n\n\n\nquel type de filtrage voulez vous effectuer ?" << endl;
 	cout << "1-filtre moyenneur" << "\n" << "2-fitre gradient en X" << "\n" << "3-filtre gradient en Y" << "\n" << "4-filtre rehausseur" << "\n"<< "5-generez votre propre filtre" << endl;
 	cin >> choix;
 

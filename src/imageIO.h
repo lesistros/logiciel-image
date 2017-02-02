@@ -6,6 +6,8 @@
 #include <sstream>
 #include <algorithm>
 
+//#include "Bibliotheque.h"
+
 #include "opencv2/core.hpp"
 #include "opencv2/face.hpp"
 #include "opencv2/highgui.hpp"
@@ -46,7 +48,7 @@ class Image
 	float filtre1[3][3]={{0.110,0.110,0.110},{0.110,0.110,0.110},{0.110,0.110,0.110}};
 	int filtre2[3][3]={{-1,0,1},{-1,0,1},{-1,0,1}};
 	int filtre3[3][3]={{1,1,1},{0,0,0},{-1,-1,-1}};
-	int filtre4[3][3]={{-1,-1,-1},{-1,18,-1},{-1,-1,-1}};
+	int filtre4[3][3]={{-1,-1,-1},{-1,9,-1},{-1,-1,-1}};
 	// mettre les getteur histogramme rgb les rajouter dans cpp h et tester l affichage
 
 	/*
@@ -61,6 +63,7 @@ class Image
 
 
  public:
+  //  string ChoixImage(vector<Bibliotheque>& );
 	int** _MatriceCov;
 	int** _MatriceCov2;
 	int** _MatriceCovNB;

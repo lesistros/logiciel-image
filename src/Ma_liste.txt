@@ -1,0 +1,6 @@
+	 Num�ro 	 Titre 	 Cout 	 Chemin 	 Droit d'acc�s
+ 	 1 	 	lena 	 46 	 ../test/sample/lena.pgm 	 	 L
+ 	 2 	 	house 	 24  ../test/sample/house_1.ppm 	 	 L
+ 	 3 	 	west 	 46 	 ../test/sample/west_1.ppm 	 	 L
+	 4	 	tree 	 46 	 ../test/sample/tree_1.ppm 	 	 L
+	 5	 	stop 	 46 	 ../test/sample/stop_1.ppm 	 	 L
